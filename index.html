@@ -353,9 +353,15 @@
       border-top: 1px solid rgba(255, 255, 255, 0.06);
       overflow: hidden;
     }
-    .strat-showcase__photo {
+    .strat-showcase__media {
       position: absolute;
       inset: -2px;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .strat-showcase__photo {
+      position: absolute;
+      inset: 0;
       z-index: 0;
       pointer-events: none;
       background: var(--strat-bg);
@@ -373,7 +379,7 @@
     }
     .strat-showcase__scrim {
       position: absolute;
-      inset: -2px;
+      inset: 0;
       z-index: 1;
       pointer-events: none;
       background:
@@ -384,7 +390,7 @@
     }
     .strat-showcase__bg {
       position: absolute;
-      inset: -2px;
+      inset: 0;
       z-index: 2;
       background-image:
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -514,9 +520,15 @@
       border-top: 1px solid rgba(255, 255, 255, 0.06);
       overflow: hidden;
     }
-    .stats-showcase__photo {
+    .stats-showcase__media {
       position: absolute;
       inset: -2px;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .stats-showcase__photo {
+      position: absolute;
+      inset: 0;
       z-index: 0;
       pointer-events: none;
       background: var(--stats-bg);
@@ -536,7 +548,7 @@
     }
     .stats-showcase__scrim {
       position: absolute;
-      inset: -2px;
+      inset: 0;
       z-index: 1;
       pointer-events: none;
       /* rgba alinhado a #050507 = rgb(5,5,7) — antes 5,5,8 gerava faixa visível */
@@ -548,7 +560,7 @@
     }
     .stats-showcase__bg {
       position: absolute;
-      inset: -2px;
+      inset: 0;
       z-index: 2;
       background-image:
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -693,14 +705,94 @@
     .stat-tile:nth-child(2) .stat-tile__bar > i { width: 68%; }
     .stat-tile:nth-child(3) .stat-tile__bar > i { width: 100%; }
     @media (max-width: 900px) {
-      .stats-mosaic {
-        grid-template-columns: 1fr;
+      /* Mobile: foto só na faixa de cima — conteúdo NUNCA por cima da imagem (desktop ≥901px mantém overlay) */
+      .strat-showcase,
+      .stats-showcase {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        overflow-x: hidden;
       }
+
+      .strat-showcase__media,
+      .stats-showcase__media {
+        position: relative;
+        inset: auto;
+        width: calc(100% + 32px);
+        margin-left: -16px;
+        margin-right: -16px;
+        flex: 0 0 auto;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .strat-showcase__media {
+        background: var(--strat-bg);
+      }
+      .stats-showcase__media {
+        background: var(--stats-bg);
+      }
+
+      .strat-showcase__photo,
+      .stats-showcase__photo {
+        position: relative;
+        inset: auto;
+        height: auto;
+        min-height: 0;
+        box-shadow: none;
+      }
+
+      .strat-showcase__photo img,
       .stats-showcase__photo img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: min(56vh, 440px);
         object-fit: contain;
         object-position: center center;
-        transform: scale(1.006);
-        transform-origin: center center;
+        transform: none;
+      }
+
+      .strat-showcase__scrim {
+        background: linear-gradient(to bottom, transparent 50%, rgb(var(--strat-rgb)) 100%);
+      }
+      .stats-showcase__scrim {
+        background: linear-gradient(to bottom, transparent 50%, rgb(var(--stats-rgb)) 100%);
+      }
+      .strat-showcase__bg,
+      .stats-showcase__bg {
+        opacity: 0.12;
+        mask-image: none;
+      }
+
+      .strat-showcase__inner,
+      .stats-showcase__inner {
+        position: relative;
+        z-index: 1;
+        flex: 1 1 auto;
+        width: 100%;
+        margin-top: 0;
+        padding-top: 24px;
+        min-width: 0;
+      }
+      .strat-showcase__inner {
+        background: var(--strat-bg);
+      }
+      .stats-showcase__inner {
+        background: var(--stats-bg);
+      }
+
+      .strat-showcase__lead {
+        margin-bottom: 28px;
+      }
+      .stats-showcase__lead {
+        margin-bottom: 28px;
+      }
+
+      .stats-mosaic {
+        grid-template-columns: 1fr;
       }
       .stats-showcase__head,
       .stats-showcase__lead {
@@ -715,12 +807,6 @@
       }
       .strat-showcase__inner {
         display: block;
-      }
-      .strat-showcase__photo img {
-        object-fit: contain;
-        object-position: center center;
-        transform: scale(1.006);
-        transform-origin: center center;
       }
       .strat-showcase__head,
       .strat-showcase__lead {
@@ -937,9 +1023,15 @@
       border-top: 1px solid rgba(212, 175, 55, 0.14);
       overflow: hidden;
     }
-    .sponsor-showcase__photo {
+    .sponsor-showcase__media {
       position: absolute;
       inset: -2px;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .sponsor-showcase__photo {
+      position: absolute;
+      inset: 0;
       z-index: 0;
       pointer-events: none;
       background: var(--sponsor-bg);
@@ -957,7 +1049,7 @@
     }
     .sponsor-showcase__scrim {
       position: absolute;
-      inset: -2px;
+      inset: 0;
       z-index: 1;
       pointer-events: none;
       background:
@@ -968,7 +1060,7 @@
     }
     .sponsor-showcase__bg {
       position: absolute;
-      inset: -2px;
+      inset: 0;
       z-index: 2;
       background-image:
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -1067,16 +1159,59 @@
       justify-content: flex-end;
     }
     @media (max-width: 900px) {
+      .sponsor-showcase {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        overflow-x: hidden;
+      }
+      .sponsor-showcase__media {
+        position: relative;
+        inset: auto;
+        width: calc(100% + 32px);
+        margin-left: -16px;
+        margin-right: -16px;
+        flex: 0 0 auto;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+        background: var(--sponsor-bg);
+        border-bottom: 1px solid rgba(212, 175, 55, 0.14);
+      }
+      .sponsor-showcase__photo {
+        position: relative;
+        inset: auto;
+        height: auto;
+        min-height: 0;
+        box-shadow: none;
+      }
       .sponsor-showcase__photo img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: min(56vh, 440px);
+        object-fit: contain;
         object-position: center center;
-        transform: scale(1.006);
-        transform-origin: center center;
+        transform: none;
       }
       .sponsor-showcase__scrim {
-        background:
-          linear-gradient(180deg, rgba(var(--sponsor-rgb), 0.92) 0%, rgba(var(--sponsor-rgb), 0.55) 35%, rgba(var(--sponsor-rgb), 0.75) 100%),
-          linear-gradient(180deg, transparent 0%, rgba(var(--sponsor-rgb), 0.5) 100%);
+        background: linear-gradient(to bottom, transparent 50%, rgb(var(--sponsor-rgb)) 100%);
       }
+      .sponsor-showcase__bg {
+        opacity: 0.12;
+        mask-image: none;
+      }
+      .sponsor-showcase__inner {
+        position: relative;
+        z-index: 1;
+        flex: 1 1 auto;
+        width: 100%;
+        margin-top: 0;
+        padding-top: 24px;
+        min-width: 0;
+        background: var(--sponsor-bg);
+      }
+
       .sponsor-showcase__head,
       .sponsor-showcase__lead {
         margin-left: 0;
@@ -1097,9 +1232,8 @@
       }
     }
     @media (prefers-reduced-motion: reduce) {
-      .sponsor-showcase__photo img {
-        transform: none;
-      }
+      .sponsor-showcase__photo img,
+      .stats-showcase__photo img,
       .strat-showcase__photo img {
         transform: none;
       }
@@ -1855,16 +1989,18 @@
   </section>
 
   <section class="strat-showcase" id="duelo-intel" aria-labelledby="duelo-intel-heading">
-    <div class="strat-showcase__photo" aria-hidden="true">
-      <img
-        src="assets/2b086dba-2f44-4a32-8033-fd97b9d85deb.png"
-        alt=""
-        loading="lazy"
-        decoding="async"
-      />
+    <div class="strat-showcase__media">
+      <div class="strat-showcase__photo" aria-hidden="true">
+        <img
+          src="assets/2b086dba-2f44-4a32-8033-fd97b9d85deb.png"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div class="strat-showcase__scrim" aria-hidden="true"></div>
+      <div class="strat-showcase__bg" aria-hidden="true"></div>
     </div>
-    <div class="strat-showcase__scrim" aria-hidden="true"></div>
-    <div class="strat-showcase__bg" aria-hidden="true"></div>
     <div class="strat-showcase__inner">
       <div class="strat-showcase__head">
         <p class="strat-showcase__eyebrow">Sessão estratégica</p>
@@ -1939,16 +2075,18 @@
   </section>
 
   <section class="stats-showcase" id="estatisticas" aria-labelledby="estatisticas-heading">
-    <div class="stats-showcase__photo" aria-hidden="true">
-      <img
-        src="assets/ChatGPT%20Image%20Apr%2024%2C%202026%2C%2001_08_18%20PM.png"
-        alt=""
-        loading="lazy"
-        decoding="async"
-      />
+    <div class="stats-showcase__media">
+      <div class="stats-showcase__photo" aria-hidden="true">
+        <img
+          src="assets/ChatGPT%20Image%20Apr%2024%2C%202026%2C%2001_08_18%20PM.png"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div class="stats-showcase__scrim" aria-hidden="true"></div>
+      <div class="stats-showcase__bg" aria-hidden="true"></div>
     </div>
-    <div class="stats-showcase__scrim" aria-hidden="true"></div>
-    <div class="stats-showcase__bg" aria-hidden="true"></div>
     <div class="stats-showcase__inner">
       <div class="stats-showcase__head">
         <p class="stats-showcase__eyebrow">Painel numérico</p>
@@ -2107,47 +2245,49 @@
   </section>
 
   <section class="sponsor-showcase" id="parcerias" aria-labelledby="parcerias-heading">
-    <div class="sponsor-showcase__photo" aria-hidden="true">
-      <img
-        src="assets/f3990116-0009-4fa4-8483-ffaac18f52dd.png"
-        alt=""
-        loading="lazy"
-        decoding="async"
-      />
+    <div class="sponsor-showcase__media">
+      <div class="sponsor-showcase__photo" aria-hidden="true">
+        <img
+          src="assets/f3990116-0009-4fa4-8483-ffaac18f52dd.png"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div class="sponsor-showcase__scrim" aria-hidden="true"></div>
+      <div class="sponsor-showcase__bg" aria-hidden="true"></div>
     </div>
-    <div class="sponsor-showcase__scrim" aria-hidden="true"></div>
-    <div class="sponsor-showcase__bg" aria-hidden="true"></div>
     <div class="sponsor-showcase__inner">
       <div class="sponsor-showcase__head">
-        <p class="sponsor-showcase__eyebrow">Mídia &amp; patrocínio</p>
-        <h2 class="sponsor-showcase__title" id="parcerias-heading">Sua marca no epicentro do <em>talento em evolução</em></h2>
+        <p class="sponsor-showcase__eyebrow">Quer ser patrocinador?</p>
+        <h2 class="sponsor-showcase__title" id="parcerias-heading">Leve a sua marca para junto de quem <em>vive o jogo de verdade</em></h2>
         <p class="sponsor-showcase__lead">
-          Espaço dedicado a marcas que desejam se associar a uma trajetória de alto rendimento, liderança em campo e narrativa autêntica —
-          com conteúdo profissional, presença digital e alinhamento a valores esportivos.
+          Se você representa uma empresa ou marca e busca patrocinar um atleta em ascensão, com narrativa forte, conteúdo profissional e alinhamento a valores de alto rendimento,
+          o Enzo oferece um pacote claro de mídia, visibilidade e parceria comercial — com proposta formal, condições negociáveis e conversa direta com a equipe.
         </p>
       </div>
       <div class="sponsor-showcase__panel">
         <ul class="sponsor-list">
           <li>
             <i class="bi bi-patch-check-fill" aria-hidden="true"></i>
-            <span><strong>Visibilidade qualificada</strong> — integração em reels, vitrine de vídeos e materiais do portfólio, com foco em público que acompanha futebol de formação e performance.</span>
+            <span><strong>O que a sua marca ganha</strong> — exposição junto de um perfil competitivo em evolução: reels, vitrine de vídeos e materiais do portfólio, com foco em quem acompanha futebol de formação e performance.</span>
           </li>
           <li>
             <i class="bi bi-people-fill" aria-hidden="true"></i>
-            <span><strong>História com propósito</strong> — patrocínio conectado a disciplina, capitânia e evolução técnica; menos ruído, mais credibilidade para a sua marca.</span>
+            <span><strong>Por que patrocinar o Enzo</strong> — associação a disciplina, capitânia e evolução técnica visível em campo; narrativa autêntica e menos “ruído” que patrocínios genéricos.</span>
           </li>
           <li>
             <i class="bi bi-camera-reels-fill" aria-hidden="true"></i>
-            <span><strong>Ativos de mídia</strong> — possibilidade de cotas em conteúdo, menções institucionais e co-criação sob medida (conforme contrato e calendário esportivo).</span>
+            <span><strong>Como funciona na prática</strong> — cotas em conteúdo, menções institucionais e possibilidade de co-criação sob medida, alinhadas ao contrato e ao calendário esportivo.</span>
           </li>
           <li>
             <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
-            <span><strong>Transparência comercial</strong> — proposta formal, condições negociáveis e atendimento por canal oficial (WhatsApp) para agilidade com responsabilidade.</span>
+            <span><strong>Próximo passo para patrocinadores</strong> — enviamos proposta formal, alinhamos valores e condições; o canal oficial (WhatsApp) agiliza a conversa com responsabilidade.</span>
           </li>
         </ul>
         <div class="sponsor-actions">
-          <a class="scout-btn scout-btn--primary" href="https://wa.me/553186020686?text=Ol%C3%A1%2C%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20patroc%C3%ADnio%20%2F%20parceria%20com%20o%20Enzo%20Fortes." target="_blank" rel="noreferrer">
-            <i class="bi bi-chat-dots"></i> Falar sobre patrocínio
+          <a class="scout-btn scout-btn--primary" href="https://wa.me/553186020686?text=Ol%C3%A1%2C%20represento%20uma%20marca%20e%20tenho%20interesse%20em%20patrocinar%20%2F%20parceria%20com%20o%20Enzo%20Fortes.%20Gostaria%20de%20receber%20informa%C3%A7%C3%B5es." target="_blank" rel="noreferrer">
+            <i class="bi bi-chat-dots"></i> Quero ser patrocinador
           </a>
           <a class="scout-btn scout-btn--ghost" href="#scout">
             <i class="bi bi-diagram-2"></i> Área clubes &amp; scouting
