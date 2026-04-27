@@ -1193,6 +1193,98 @@
       margin-top: 22px;
       justify-content: flex-end;
     }
+    .official-sponsor {
+      position: relative;
+      padding: 64px 20px 72px;
+      background: #070709;
+      border-top: 1px solid rgba(212, 175, 55, 0.12);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+      overflow: hidden;
+    }
+    .official-sponsor::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 24%, rgba(212, 175, 55, 0.08), transparent 46%),
+        radial-gradient(circle at 86% 74%, rgba(212, 175, 55, 0.07), transparent 42%);
+    }
+    .official-sponsor__inner {
+      position: relative;
+      z-index: 1;
+      width: min(1100px, 100%);
+      margin-inline: auto;
+      display: grid;
+      gap: 28px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+      align-items: center;
+    }
+    .official-sponsor__logo-wrap {
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: linear-gradient(160deg, rgba(14, 14, 18, 0.92), rgba(6, 6, 8, 0.94));
+      padding: clamp(20px, 3.5vw, 32px);
+      min-height: 210px;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.32);
+    }
+    .official-sponsor__logo {
+      width: min(100%, 420px);
+      height: auto;
+      object-fit: contain;
+      display: block;
+      opacity: 0.95;
+    }
+    .official-sponsor__eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245, 217, 123, 0.82);
+      margin-bottom: 10px;
+    }
+    .official-sponsor__title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.9rem, 4vw, 2.6rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #fafafa;
+      margin-bottom: 14px;
+    }
+    .official-sponsor__title em {
+      font-style: italic;
+      background: linear-gradient(135deg, #fffef8, var(--gold-soft) 48%, var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .official-sponsor__lead {
+      color: #b4b4bc;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      max-width: 54ch;
+    }
+    .official-sponsor__list {
+      margin-top: 18px;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+    .official-sponsor__list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: #d4d4d8;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .official-sponsor__list i {
+      color: var(--gold-soft);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
     @media (max-width: 900px) {
       .sponsor-showcase {
         display: flex;
@@ -1264,6 +1356,12 @@
       }
       .sponsor-actions {
         justify-content: flex-start;
+      }
+      .official-sponsor__inner {
+        grid-template-columns: 1fr;
+      }
+      .official-sponsor__logo-wrap {
+        min-height: 160px;
       }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -1541,6 +1639,45 @@
         height: 100%;
         max-width: none;
       }
+    }
+    .reel-card__media video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #000;
+      cursor: pointer;
+    }
+    .reel-card__frame:fullscreen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      border-radius: 0;
+    }
+    .reel-card__frame:fullscreen .reel-card__media {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      height: 100%;
+      max-width: 100vw;
+      max-height: 100vh;
+    }
+    .reel-card__frame:fullscreen .reel-card__media video {
+      position: relative;
+      inset: auto;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100vh;
+      object-fit: contain;
+    }
+    video:fullscreen {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
     }
     .reel-card--placeholder .reel-card__media {
       flex-direction: column;
@@ -2206,64 +2343,177 @@
         <div class="reels-carousel__viewport" data-reels-viewport tabindex="0" role="region" aria-roledescription="carrossel" aria-label="Reels e highlights em formato vertical">
           <article class="reel-card" data-reel-slide>
             <div class="reel-card__head">
-              <strong>Highlight principal</strong>
-              <span>Full HD</span>
+              <strong>Reel 01</strong>
+              <span>Local</span>
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <iframe
-                  src="https://www.youtube.com/embed/aqz-KE-bpKQ?rel=0"
-                  title="Highlight principal — Enzo Fortes"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.42.48.mp4" controls playsinline preload="metadata" title="Reel 01 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
           <article class="reel-card" data-reel-slide>
             <div class="reel-card__head">
-              <strong>Lances &amp; ritmo</strong>
-              <span>Clip</span>
+              <strong>Reel 02</strong>
+              <span>Local</span>
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <iframe
-                  src="https://www.youtube.com/embed/ScMzIvxBSi4?rel=0"
-                  title="Lances — Enzo Fortes"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.42.51.mp4" controls playsinline preload="metadata" title="Reel 02 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
           <article class="reel-card" data-reel-slide>
             <div class="reel-card__head">
-              <strong>Competição</strong>
-              <span>Jogo</span>
+              <strong>Reel 03</strong>
+              <span>Local</span>
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <iframe
-                  src="https://www.youtube.com/embed/aqz-KE-bpKQ?rel=0&amp;start=30"
-                  title="Trecho de jogo — Enzo Fortes"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.01%20(1).mp4" controls playsinline preload="metadata" title="Reel 03 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
-          <article class="reel-card reel-card--placeholder" data-reel-slide>
+          <article class="reel-card" data-reel-slide>
             <div class="reel-card__head">
-              <strong>Próximo reel</strong>
-              <span>Slot livre</span>
+              <strong>Reel 04</strong>
+              <span>Local</span>
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <i class="bi bi-plus-lg" aria-hidden="true"></i>
-                <p>Cole aqui o próximo embed (Shorts / Reels) ou deixe como chamada para o canal.</p>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.01%20(2).mp4" controls playsinline preload="metadata" title="Reel 04 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 05</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.01.mp4" controls playsinline preload="metadata" title="Reel 05 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 06</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02%20(1).mp4" controls playsinline preload="metadata" title="Reel 06 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 07</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02%20(2).mp4" controls playsinline preload="metadata" title="Reel 07 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 08</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02%20(3).mp4" controls playsinline preload="metadata" title="Reel 08 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 09</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02%20(4).mp4" controls playsinline preload="metadata" title="Reel 09 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 10</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02.mp4" controls playsinline preload="metadata" title="Reel 10 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 11</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.03.mp4" controls playsinline preload="metadata" title="Reel 11 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 12</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.08%20(1).mp4" controls playsinline preload="metadata" title="Reel 12 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 13</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.08%20(2).mp4" controls playsinline preload="metadata" title="Reel 13 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 14</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.08.mp4" controls playsinline preload="metadata" title="Reel 14 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 15</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.14%20(1).mp4" controls playsinline preload="metadata" title="Reel 15 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 16</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.14.mp4" controls playsinline preload="metadata" title="Reel 16 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2328,6 +2578,33 @@
             <i class="bi bi-diagram-2"></i> Área clubes &amp; scouting
           </a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="official-sponsor" id="patrocinador-oficial" aria-labelledby="patrocinador-oficial-heading">
+    <div class="official-sponsor__inner">
+      <div class="official-sponsor__logo-wrap" aria-hidden="true">
+        <img
+          class="official-sponsor__logo"
+          src="assets/puma.png"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div class="official-sponsor__content">
+        <p class="official-sponsor__eyebrow">Patrocinador oficial</p>
+        <h2 class="official-sponsor__title" id="patrocinador-oficial-heading">Puma ao lado da trajetória do <em>Enzo</em></h2>
+        <p class="official-sponsor__lead">
+          A Puma é a patrocinadora oficial do Enzo Fortes, reforçando uma parceria conectada com performance, disciplina e evolução contínua dentro de campo.
+          Essa união representa confiança em um projeto esportivo de longo prazo, com foco em desenvolvimento técnico e mentalidade competitiva.
+        </p>
+        <ul class="official-sponsor__list">
+          <li><i class="bi bi-patch-check-fill" aria-hidden="true"></i><span><strong>Parceria oficial ativa</strong> — presença de marca em conteúdos, materiais de divulgação e ativações institucionais.</span></li>
+          <li><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i><span><strong>Alinhamento de valores</strong> — mentalidade de alto rendimento, consistência e evolução em cada temporada.</span></li>
+          <li><i class="bi bi-trophy-fill" aria-hidden="true"></i><span><strong>Visão de futuro</strong> — construção de posicionamento sólido para os próximos ciclos competitivos.</span></li>
+        </ul>
       </div>
     </div>
   </section>
@@ -2514,6 +2791,40 @@
       });
 
       updateDots();
+    })();
+    (function () {
+      var root = document.querySelector("[data-reels-carousel]");
+      if (!root) return;
+      var videos = root.querySelectorAll("video");
+      if (!videos.length) return;
+      videos.forEach(function (v) {
+        v.addEventListener("play", function () {
+          videos.forEach(function (other) {
+            if (other !== v) other.pause();
+          });
+        });
+        var frame = v.closest(".reel-card__frame");
+        v.addEventListener("click", function () {
+          if (!frame) return;
+          if (document.fullscreenElement === frame || document.fullscreenElement === v) return;
+          if (typeof v.webkitEnterFullscreen === "function") {
+            try {
+              v.webkitEnterFullscreen();
+            } catch (err) {}
+            return;
+          }
+          var req =
+            frame.requestFullscreen ||
+            frame.webkitRequestFullscreen ||
+            v.requestFullscreen ||
+            v.webkitRequestFullscreen;
+          if (req) {
+            try {
+              req.call(frame.requestFullscreen ? frame : v);
+            } catch (err) {}
+          }
+        });
+      });
     })();
     (function () {
       var ids = ["estatisticas", "duelo-intel"];
