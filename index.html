@@ -2661,6 +2661,23 @@
       var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       var n = slides.length;
       var autoTimer = null;
+      var sectionIsVisible = false;
+
+      function anyVideoPlaying() {
+        var vids = root.querySelectorAll("video");
+        for (var i = 0; i < vids.length; i++) {
+          if (!vids[i].paused) return true;
+        }
+        return false;
+      }
+
+      function syncCarouselAutoWithVideos() {
+        if (anyVideoPlaying()) {
+          stopAuto();
+          return;
+        }
+        if (sectionIsVisible && n > 1) startAuto();
+      }
 
       function currentIndex() {
         var vp = viewport.getBoundingClientRect();
@@ -2732,23 +2749,34 @@
       }
       function restartAuto() {
         stopAuto();
-        startAuto();
+        if (!anyVideoPlaying() && sectionIsVisible) startAuto();
       }
 
       if (section) {
         var io = new IntersectionObserver(
           function (entries) {
             entries.forEach(function (e) {
-              if (e.isIntersecting) startAuto();
-              else stopAuto();
+              sectionIsVisible = e.isIntersecting;
+              if (e.isIntersecting) {
+                if (!anyVideoPlaying()) startAuto();
+              } else {
+                stopAuto();
+              }
             });
           },
           { threshold: 0, rootMargin: "120px 0px 120px 0px" }
         );
         io.observe(section);
       } else {
-        startAuto();
+        sectionIsVisible = true;
+        if (!anyVideoPlaying()) startAuto();
       }
+
+      root.querySelectorAll("video").forEach(function (vid) {
+        vid.addEventListener("play", syncCarouselAutoWithVideos);
+        vid.addEventListener("pause", syncCarouselAutoWithVideos);
+        vid.addEventListener("ended", syncCarouselAutoWithVideos);
+      });
 
       if (prevBtn)
         prevBtn.addEventListener("click", function () {
