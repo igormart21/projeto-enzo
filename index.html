@@ -27,6 +27,41 @@
       background: var(--black);
       line-height: 1.55;
     }
+    .audio-fab {
+      position: fixed;
+      right: 14px;
+      bottom: 16px;
+      z-index: 80;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 217, 123, 0.4);
+      background: rgba(9, 9, 9, 0.62);
+      color: #f7e6b0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+    .audio-fab:hover {
+      background: rgba(15, 15, 15, 0.82);
+      border-color: rgba(245, 217, 123, 0.75);
+      transform: scale(1.03);
+    }
+    .audio-fab:focus-visible {
+      outline: 2px solid rgba(245, 217, 123, 0.9);
+      outline-offset: 2px;
+    }
+    @media (max-width: 768px) {
+      .audio-fab {
+        right: 10px;
+        bottom: 12px;
+        width: 36px;
+        height: 36px;
+      }
+    }
     html {
       -webkit-text-size-adjust: 100%;
     }
@@ -53,7 +88,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 40%;
+      object-position: center 58%;
       transform: scale(1.04);
       filter: saturate(1.05) contrast(1.05);
     }
@@ -1992,7 +2027,7 @@
     <div class="strat-showcase__media">
       <div class="strat-showcase__photo" aria-hidden="true">
         <img
-          src="assets/2b086dba-2f44-4a32-8033-fd97b9d85deb.png"
+          src="assets/1c0863a4-0bc4-483e-a28e-b866381fe161.png"
           alt=""
           loading="lazy"
           decoding="async"
@@ -2004,37 +2039,37 @@
     <div class="strat-showcase__inner">
       <div class="strat-showcase__head">
         <p class="strat-showcase__eyebrow">Sessão estratégica</p>
-        <h2 class="strat-showcase__title" id="duelo-intel-heading">Duelo e condução <span>1x1</span></h2>
+        <h2 class="strat-showcase__title" id="duelo-intel-heading">Ataque ao espaço e <span>aceleração</span></h2>
         <p class="strat-showcase__lead">
-          Leitura do espaço, cadência na condução e decisão sob marcação — o tipo de lance que separa atletas que só correm dos que realmente <em>impõem ritmo</em> ao jogo.
-          Atualize os números com dados reais da temporada para scouting.
+          Arranque com bola dominada, leitura do corredor livre e timing para finalizar a jogada no terço final.
+          A imagem traduz exatamente o perfil de quem acelera com objetivo: atacar espaço, ganhar metros e criar vantagem real para o time.
         </p>
       </div>
       <div class="strat-showcase__metrics">
         <div class="path-timeline" role="list">
           <article class="path-step" role="listitem">
-            <p class="path-step__meta">Dribles efetivos</p>
+            <p class="path-step__meta">Progressões em velocidade</p>
             <div class="strat-metric-step__value">
               <span class="js-stat" data-target="85">0</span>
               <span class="strat-metric-step__suffix">%</span>
             </div>
-            <p>Taxa de sucesso em situações de um contra um e progressão com bola.</p>
+            <p>Conduções verticais que quebram linha e aproximam a equipe da zona de finalização.</p>
           </article>
           <article class="path-step" role="listitem">
-            <p class="path-step__meta">Duelos ganhos</p>
+            <p class="path-step__meta">Ações de ruptura</p>
             <div class="strat-metric-step__value">
               <span class="js-stat" data-target="12">0</span>
               <span class="strat-metric-step__suffix">+</span>
             </div>
-            <p>Volume de duelos ofensivos e defensivos vencidos em competição oficial.</p>
+            <p>Sequências por jogo em que o atleta ataca o espaço vazio e desorganiza a última linha adversária.</p>
           </article>
           <article class="path-step" role="listitem">
-            <p class="path-step__meta">Leitura sob pressão</p>
+            <p class="path-step__meta">Decisão no último terço</p>
             <div class="strat-metric-step__value">
               <span class="js-stat" data-target="94">0</span>
               <span class="strat-metric-step__suffix">%</span>
             </div>
-            <p>Ações corretas com adversário colado — passe, proteção ou mudança de ritmo no momento certo.</p>
+            <p>Escolha correta entre chute, passe final ou proteção da bola no momento de maior pressão.</p>
           </article>
         </div>
       </div>
@@ -2259,10 +2294,10 @@
     </div>
     <div class="sponsor-showcase__inner">
       <div class="sponsor-showcase__head">
-        <p class="sponsor-showcase__eyebrow">Quer ser patrocinador?</p>
+        <p class="sponsor-showcase__eyebrow">Quer ser parceiro?</p>
         <h2 class="sponsor-showcase__title" id="parcerias-heading">Leve a sua marca para junto de quem <em>vive o jogo de verdade</em></h2>
         <p class="sponsor-showcase__lead">
-          Se você representa uma empresa ou marca e busca patrocinar um atleta em ascensão, com narrativa forte, conteúdo profissional e alinhamento a valores de alto rendimento,
+          Se você representa uma empresa ou marca e busca apoiar um atleta em ascensão, com narrativa forte, conteúdo profissional e alinhamento a valores de alto rendimento,
           o Enzo oferece um pacote claro de mídia, visibilidade e parceria comercial — com proposta formal, condições negociáveis e conversa direta com a equipe.
         </p>
       </div>
@@ -2274,7 +2309,7 @@
           </li>
           <li>
             <i class="bi bi-people-fill" aria-hidden="true"></i>
-            <span><strong>Por que patrocinar o Enzo</strong> — associação a disciplina, capitânia e evolução técnica visível em campo; narrativa autêntica e menos “ruído” que patrocínios genéricos.</span>
+            <span><strong>Por que ser parceiro do Enzo</strong> — associação a disciplina, capitânia e evolução técnica visível em campo; narrativa autêntica e menos “ruído” que patrocínios genéricos.</span>
           </li>
           <li>
             <i class="bi bi-camera-reels-fill" aria-hidden="true"></i>
@@ -2282,12 +2317,12 @@
           </li>
           <li>
             <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
-            <span><strong>Próximo passo para patrocinadores</strong> — enviamos proposta formal, alinhamos valores e condições; o canal oficial (WhatsApp) agiliza a conversa com responsabilidade.</span>
+            <span><strong>Próximo passo para parceiros</strong> — enviamos proposta formal, alinhamos valores e condições; o canal oficial (WhatsApp) agiliza a conversa com responsabilidade.</span>
           </li>
         </ul>
         <div class="sponsor-actions">
-          <a class="scout-btn scout-btn--primary" href="https://wa.me/553186020686?text=Ol%C3%A1%2C%20represento%20uma%20marca%20e%20tenho%20interesse%20em%20patrocinar%20%2F%20parceria%20com%20o%20Enzo%20Fortes.%20Gostaria%20de%20receber%20informa%C3%A7%C3%B5es." target="_blank" rel="noreferrer">
-            <i class="bi bi-chat-dots"></i> Quero ser patrocinador
+          <a class="scout-btn scout-btn--primary" href="https://wa.me/553186020686?text=Ol%C3%A1%2C%20represento%20uma%20marca%20e%20tenho%20interesse%20em%20fazer%20uma%20parceria%20com%20o%20Enzo%20Fortes.%20Gostaria%20de%20receber%20informa%C3%A7%C3%B5es." target="_blank" rel="noreferrer">
+            <i class="bi bi-chat-dots"></i> Quero ser parceiro
           </a>
           <a class="scout-btn scout-btn--ghost" href="#scout">
             <i class="bi bi-diagram-2"></i> Área clubes &amp; scouting
@@ -2317,6 +2352,11 @@
       </div>
     </div>
   </section>
+
+  <audio id="site-audio" src="assets/audio.mp3" preload="auto" loop autoplay muted playsinline></audio>
+  <button class="audio-fab" id="audio-fab" type="button" aria-label="Pausar música" aria-pressed="true">
+    <i class="bi bi-pause-fill" aria-hidden="true"></i>
+  </button>
 
   <script>
     (function () {
@@ -2527,6 +2567,81 @@
         var section = document.getElementById(id);
         if (section) runCounterForSection(section);
       });
+    })();
+    (function () {
+      var audio = document.getElementById("site-audio");
+      var button = document.getElementById("audio-fab");
+      if (!audio || !button) return;
+      var icon = button.querySelector("i");
+      audio.volume = 0.45;
+
+      function setButtonState(isPlaying) {
+        button.setAttribute("aria-pressed", isPlaying ? "true" : "false");
+        button.setAttribute("aria-label", isPlaying ? "Pausar música" : "Tocar música");
+        if (icon) {
+          icon.className = isPlaying ? "bi bi-pause-fill" : "bi bi-play-fill";
+          icon.setAttribute("aria-hidden", "true");
+        }
+      }
+
+      function tryAutoPlay() {
+        audio.muted = true;
+        var playPromise = audio.play();
+        if (playPromise && typeof playPromise.then === "function") {
+          playPromise.then(function () {
+            setButtonState(true);
+          }).catch(function () {
+            setButtonState(false);
+          });
+        } else {
+          setButtonState(!audio.paused);
+        }
+      }
+
+      var unlocked = false;
+      function unlockSoundOnFirstInteraction() {
+        if (unlocked) return;
+        unlocked = true;
+        audio.muted = false;
+        var playPromise = audio.play();
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(function () {
+            unlocked = false;
+            audio.muted = true;
+          });
+        }
+      }
+
+      button.addEventListener("click", function () {
+        unlockSoundOnFirstInteraction();
+        if (audio.paused) {
+          var playPromise = audio.play();
+          if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(function () {
+              setButtonState(false);
+            });
+          }
+          setButtonState(true);
+          return;
+        }
+        audio.pause();
+        setButtonState(false);
+      });
+
+      audio.addEventListener("play", function () { setButtonState(true); });
+      audio.addEventListener("pause", function () { setButtonState(false); });
+      window.addEventListener("load", function () {
+        if (audio.paused) tryAutoPlay();
+      });
+      window.addEventListener("pointerdown", unlockSoundOnFirstInteraction, { once: true, capture: true });
+      window.addEventListener("keydown", unlockSoundOnFirstInteraction, { once: true, capture: true });
+      window.addEventListener("touchstart", unlockSoundOnFirstInteraction, { once: true, capture: true });
+      document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState !== "visible") return;
+        if (audio.paused) tryAutoPlay();
+      });
+      setButtonState(true);
+      tryAutoPlay();
     })();
   </script>
 
