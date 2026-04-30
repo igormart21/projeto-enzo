@@ -2137,10 +2137,10 @@
     </div>
 
     <footer class="hero__foot" aria-label="Trajetória">
-      <a href="#videos">Vídeos</a>
-      <a href="#trajetoria">Evolução</a>
-      <a href="#estatisticas">Performance</a>
-      <a href="#parcerias">Parceiros</a>
+      <a href="javascript:void(0)" data-scroll="videos">Vídeos</a>
+      <a href="javascript:void(0)" data-scroll="trajetoria">Evolução</a>
+      <a href="javascript:void(0)" data-scroll="estatisticas">Performance</a>
+      <a href="javascript:void(0)" data-scroll="parcerias">Parceiros</a>
     </footer>
   </section>
 
@@ -2783,9 +2783,6 @@
   </button>
 
   <script>
-    if ("scrollRestoration" in history) {
-      history.scrollRestoration = "manual";
-    }
     (function () {
       var root = document.querySelector(".video-showcase");
       if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -3121,13 +3118,20 @@
       audio.addEventListener("pause", function () { setButtonState(false); });
       window.addEventListener("load", function () {
         if (audio.paused) tryAutoPlay();
-        // Reset scroll to top on refresh if hash exists
-        if (window.location.hash) {
-          setTimeout(function() {
-            window.scrollTo(0, 0);
-          }, 1);
-        }
       });
+
+      // Novo handler para scroll suave sem mudar a URL
+      document.querySelectorAll("[data-scroll]").forEach(function(el) {
+        el.addEventListener("click", function(e) {
+          e.preventDefault();
+          var targetId = this.getAttribute("data-scroll");
+          var targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+
       window.addEventListener("pointerdown", unlockSoundOnFirstInteraction, { once: true, capture: true });
       window.addEventListener("keydown", unlockSoundOnFirstInteraction, { once: true, capture: true });
       window.addEventListener("touchstart", unlockSoundOnFirstInteraction, { once: true, capture: true });
