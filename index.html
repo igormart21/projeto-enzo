@@ -2783,6 +2783,9 @@
   </button>
 
   <script>
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
     (function () {
       var root = document.querySelector(".video-showcase");
       if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
