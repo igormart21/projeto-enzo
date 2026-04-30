@@ -236,31 +236,40 @@
     .hero__foot {
       position: relative;
       z-index: 4;
-      margin-top: 28px;
+      margin-top: 32px;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px 22px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(11, 11, 11, 0.72);
+      gap: 12px;
       opacity: 0;
       animation: fadeUp 0.85s ease forwards 0.75s;
     }
-    .hero__foot span {
+    .hero__foot span,
+    .hero__foot a {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      padding: 8px 18px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--gold-soft);
+      border: 1px solid var(--gold-soft);
+      border-radius: 99px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
     }
-    .hero__foot span::after {
-      content: "•";
-      margin-left: 22px;
-      opacity: 0.35;
-      font-weight: 400;
+    .hero__foot span:hover,
+    .hero__foot a:hover {
+      background: var(--gold-bright);
+      border-color: var(--gold-bright);
+      transform: translateY(-2px);
+      color: var(--black);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.2);
     }
-    .hero__foot span:last-child::after { content: none; margin: 0; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }
@@ -864,7 +873,9 @@
     }
 
     @media (max-width: 720px) {
-      .hero__foot span::after { margin-left: 12px; }
+      .hero__foot { gap: 8px; }
+      .hero__foot span,
+      .hero__foot a { padding: 6px 14px; font-size: 0.7rem; }
     }
 
     /* —— Perfil profissional (valor para scouting) —— */
@@ -1952,10 +1963,9 @@
         padding: 8px 4px 6px;
       }
       .hero__foot {
-        margin-top: 20px;
-        gap: 8px 14px;
-        font-size: 0.65rem;
-        padding: 0 4px;
+        margin-top: 24px;
+        gap: 8px;
+        padding: 0;
       }
 
       .feat-showcase,
@@ -2122,10 +2132,10 @@
     </div>
 
     <footer class="hero__foot" aria-label="Trajetória">
-      <span>Treinos</span>
-      <span>Jogos</span>
-      <span>Evolução</span>
-      <span>Performance</span>
+      <a href="#videos">Vídeos</a>
+      <a href="#trajetoria">Evolução</a>
+      <a href="#estatisticas">Performance</a>
+      <a href="#parcerias">Parceiros</a>
     </footer>
   </section>
 
@@ -2348,7 +2358,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.42.48.mp4" controls playsinline preload="metadata" title="Reel 01 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/VIDEO-2026-04-27-12-50-59.mp4" controls playsinline preload="metadata" title="Reel 01 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2359,7 +2369,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.42.51.mp4" controls playsinline preload="metadata" title="Reel 02 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/VIDEO-2026-04-27-12-52-12.mp4" controls playsinline preload="metadata" title="Reel 02 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2370,7 +2380,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.01%20(1).mp4" controls playsinline preload="metadata" title="Reel 03 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/VIDEO-2026-04-27-12-55-13.mp4" controls playsinline preload="metadata" title="Reel 03 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2381,7 +2391,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.01%20(2).mp4" controls playsinline preload="metadata" title="Reel 04 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/VIDEO-2026-04-27-12-59-16.mp4" controls playsinline preload="metadata" title="Reel 04 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2392,7 +2402,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.01.mp4" controls playsinline preload="metadata" title="Reel 05 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/VIDEO-2026-04-27-13-15-11.mp4" controls playsinline preload="metadata" title="Reel 05 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2403,7 +2413,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02%20(1).mp4" controls playsinline preload="metadata" title="Reel 06 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/VIDEO-2026-04-27-13-55-58.mp4" controls playsinline preload="metadata" title="Reel 06 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2414,7 +2424,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02%20(2).mp4" controls playsinline preload="metadata" title="Reel 07 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/VIDEO-2026-04-27-13-56-55.mp4" controls playsinline preload="metadata" title="Reel 07 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2425,7 +2435,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02%20(3).mp4" controls playsinline preload="metadata" title="Reel 08 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/VIDEO-2026-04-27-13-58-18.mp4" controls playsinline preload="metadata" title="Reel 08 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2436,7 +2446,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02%20(4).mp4" controls playsinline preload="metadata" title="Reel 09 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/VIDEO-2026-04-27-13-59-50.mp4" controls playsinline preload="metadata" title="Reel 09 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2447,7 +2457,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02.mp4" controls playsinline preload="metadata" title="Reel 10 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/VIDEO-2026-04-27-14-01-52.mp4" controls playsinline preload="metadata" title="Reel 10 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2458,7 +2468,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.03.mp4" controls playsinline preload="metadata" title="Reel 11 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.42.48.mp4" controls playsinline preload="metadata" title="Reel 11 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2469,7 +2479,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.08%20(1).mp4" controls playsinline preload="metadata" title="Reel 12 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.42.51.mp4" controls playsinline preload="metadata" title="Reel 12 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2480,7 +2490,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.08%20(2).mp4" controls playsinline preload="metadata" title="Reel 13 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.01%20%281%29.mp4" controls playsinline preload="metadata" title="Reel 13 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2491,7 +2501,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.08.mp4" controls playsinline preload="metadata" title="Reel 14 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.01%20%282%29.mp4" controls playsinline preload="metadata" title="Reel 14 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2502,7 +2512,7 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.14%20(1).mp4" controls playsinline preload="metadata" title="Reel 15 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.01.mp4" controls playsinline preload="metadata" title="Reel 15 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
@@ -2513,7 +2523,139 @@
             </div>
             <div class="reel-card__frame">
               <div class="reel-card__media">
-                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.14.mp4" controls playsinline preload="metadata" title="Reel 16 — Enzo Fortes"></video>
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02%20%281%29.mp4" controls playsinline preload="metadata" title="Reel 16 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 17</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02%20%282%29.mp4" controls playsinline preload="metadata" title="Reel 17 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 18</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02%20%283%29.mp4" controls playsinline preload="metadata" title="Reel 18 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 19</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02%20%284%29.mp4" controls playsinline preload="metadata" title="Reel 19 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 20</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.02.mp4" controls playsinline preload="metadata" title="Reel 20 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 21</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.43.03.mp4" controls playsinline preload="metadata" title="Reel 21 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 22</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.08%20%281%29.mp4" controls playsinline preload="metadata" title="Reel 22 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 23</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.08%20%282%29.mp4" controls playsinline preload="metadata" title="Reel 23 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 24</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.08.mp4" controls playsinline preload="metadata" title="Reel 24 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 25</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.14%20%281%29.mp4" controls playsinline preload="metadata" title="Reel 25 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 26</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/WhatsApp%20Video%202026-04-27%20at%2009.50.14.mp4" controls playsinline preload="metadata" title="Reel 26 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 27</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/VIDEO-2026-04-29-14-06-42.mp4" controls playsinline preload="metadata" title="Reel 27 — Enzo Fortes"></video>
+              </div>
+            </div>
+          </article>
+          <article class="reel-card" data-reel-slide>
+            <div class="reel-card__head">
+              <strong>Reel 28</strong>
+              <span>Local</span>
+            </div>
+            <div class="reel-card__frame">
+              <div class="reel-card__media">
+                <video poster="assets/WhatsApp%20Image%202026-04-24%20at%2016.34.08%20(1).jpeg" src="assets/videos/VIDEO-2026-04-29-14-14-59.mp4" controls playsinline preload="metadata" title="Reel 28 — Enzo Fortes"></video>
               </div>
             </div>
           </article>
