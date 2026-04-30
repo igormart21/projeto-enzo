@@ -2475,13 +2475,14 @@
     <i class="bi bi-pause-fill" aria-hidden="true"></i>
   </button>
 
+  <script src="assets/js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/videos.js"></script>
   <script>
     (function () {
       // --- Configuração Supabase ---
-      const SUPABASE_URL = 'SUA_URL_DO_SUPABASE';
-      const SUPABASE_KEY = 'SUA_ANON_KEY_DO_SUPABASE';
+      const SUPABASE_URL = window.ENV_CONFIG ? window.ENV_CONFIG.SUPABASE_URL : 'SUA_URL_DO_SUPABASE';
+      const SUPABASE_KEY = window.ENV_CONFIG ? window.ENV_CONFIG.SUPABASE_KEY : 'SUA_ANON_KEY_DO_SUPABASE';
       const supabaseClient = (SUPABASE_URL !== 'SUA_URL_DO_SUPABASE' && window.supabase) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
       // --- 1. Renderização Dinâmica de Vídeos ---
