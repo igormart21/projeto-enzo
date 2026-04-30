@@ -2482,7 +2482,7 @@
       // --- Configuração Supabase ---
       const SUPABASE_URL = 'SUA_URL_DO_SUPABASE';
       const SUPABASE_KEY = 'SUA_ANON_KEY_DO_SUPABASE';
-      const supabase = (SUPABASE_URL !== 'SUA_URL_DO_SUPABASE' && window.supabase) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+      const supabaseClient = (SUPABASE_URL !== 'SUA_URL_DO_SUPABASE' && window.supabase) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
       // --- 1. Renderização Dinâmica de Vídeos ---
       async function renderReels() {
@@ -2491,8 +2491,8 @@
         
         var videos = window.INITIAL_VIDEOS || [];
 
-        if (supabase) {
-          const { data, error } = await supabase.from('videos').select('*').order('id', { ascending: true });
+        if (supabaseClient) {
+          const { data, error } = await supabaseClient.from('videos').select('*').order('id', { ascending: true });
           if (!error && data && data.length > 0) {
             videos = data.map(v => ({ title: v.title, location: v.location, videoUrl: v.video_url, posterUrl: v.poster_url }));
           }

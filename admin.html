@@ -357,11 +357,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/videos.js"></script>
   <script>
-    // --- Configuração Supabase ---
-    // Substitua pelas suas credenciais do Supabase
-    const SUPABASE_URL = 'SUA_URL_DO_SUPABASE';
-    const SUPABASE_KEY = 'SUA_ANON_KEY_DO_SUPABASE';
-    const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+    const supabaseClient = (SUPABASE_URL !== 'SUA_URL_DO_SUPABASE' && window.supabase) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
     // --- Autenticação Simples ---
     const loginForm = document.getElementById('login-form');
@@ -401,12 +397,12 @@
       const grid = document.getElementById('admin-video-grid');
       const totalStat = document.getElementById('stat-total');
       
-      if (!supabase || SUPABASE_URL === 'SUA_URL_DO_SUPABASE') {
+      if (!supabaseClient || SUPABASE_URL === 'SUA_URL_DO_SUPABASE') {
         // Fallback para localStorage/INITIAL_VIDEOS enquanto não configura
         const savedVideos = localStorage.getItem('enzo-videos');
         videos = savedVideos ? JSON.parse(savedVideos) : (window.INITIAL_VIDEOS || []);
       } else {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
           .from('videos')
           .select('*')
           .order('id', { ascending: true });
@@ -483,7 +479,7 @@
         poster_url: document.getElementById('video-poster').value
       };
 
-      if (!supabase || SUPABASE_URL === 'SUA_URL_DO_SUPABASE') {
+      if (!supabaseClient || SUPABASE_URL === 'SUA_URL_DO_SUPABASE') {
         // Lógica local fallback
         if (id !== '' && isNaN(id)) { /* editando existente no fallback */ }
         // ... (mantido apenas para teste rápido)
@@ -493,9 +489,9 @@
 
       let result;
       if (id !== '') {
-        result = await supabase.from('videos').update(videoData).eq('id', id);
+        result = await supabaseClient.from('videos').update(videoData).eq('id', id);
       } else {
-        result = await supabase.from('videos').insert([videoData]);
+        result = await supabaseClient.from('videos').insert([videoData]);
       }
 
       if (result.error) {
@@ -510,8 +506,8 @@
     async function deleteVideo(index) {
       if (confirm('Tem certeza que deseja excluir este vídeo?')) {
         const v = videos[index];
-        if (supabase && v.id) {
-          const { error } = await supabase.from('videos').delete().eq('id', v.id);
+        if (supabaseClient && v.id) {
+          const { error } = await supabaseClient.from('videos').delete().eq('id', v.id);
           if (error) alert('Erro ao excluir: ' + error.message);
         }
         loadVideos();
