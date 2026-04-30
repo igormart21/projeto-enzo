@@ -360,30 +360,41 @@
     const supabaseClient = (SUPABASE_URL !== 'SUA_URL_DO_SUPABASE' && window.supabase) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
     // --- Autenticação Simples ---
-    const loginForm = document.getElementById('login-form');
-    const loginScreen = document.getElementById('login-screen');
-    const adminDashboard = document.getElementById('admin-dashboard');
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('Painel Admin carregado. Pronto para login.');
+      
+      const loginForm = document.getElementById('login-form');
+      const loginScreen = document.getElementById('login-screen');
+      const adminDashboard = document.getElementById('admin-dashboard');
 
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const user = document.getElementById('username').value;
-      const pass = document.getElementById('password').value;
+      if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const user = document.getElementById('username').value.trim();
+          const pass = document.getElementById('password').value.trim();
 
-      if (user === 'admin' && pass === 'enzo2026') {
+          console.log('Tentativa de login com:', user);
+
+          if (user === 'admin' && pass === 'enzo2026') {
+            console.log('Login bem-sucedido!');
+            loginScreen.style.display = 'none';
+            adminDashboard.style.display = 'block';
+            localStorage.setItem('admin-logged', 'true');
+            loadVideos();
+          } else {
+            console.warn('Falha no login: Credenciais incorretas.');
+            alert('Usuário ou senha incorretos!');
+          }
+        });
+      }
+
+      if (localStorage.getItem('admin-logged') === 'true') {
+        console.log('Sessão ativa encontrada.');
         loginScreen.style.display = 'none';
         adminDashboard.style.display = 'block';
-        localStorage.setItem('admin-logged', 'true');
-        loadVideos();
-      } else {
-        alert('Credenciais inválidas!');
+        setTimeout(loadVideos, 100);
       }
     });
-
-    if (localStorage.getItem('admin-logged') === 'true') {
-      loginScreen.style.display = 'none';
-      adminDashboard.style.display = 'block';
-      setTimeout(loadVideos, 100);
-    }
 
     function logout() {
       localStorage.removeItem('admin-logged');
