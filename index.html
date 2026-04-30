@@ -2475,398 +2475,209 @@
     <i class="bi bi-pause-fill" aria-hidden="true"></i>
   </button>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/videos.js"></script>
   <script>
     (function () {
-      function renderReels() {
+      // --- Configuração Supabase ---
+      const SUPABASE_URL = 'SUA_URL_DO_SUPABASE';
+      const SUPABASE_KEY = 'SUA_ANON_KEY_DO_SUPABASE';
+      const supabase = (SUPABASE_URL !== 'SUA_URL_DO_SUPABASE' && window.supabase) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
+      // --- 1. Renderização Dinâmica de Vídeos ---
+      async function renderReels() {
         var container = document.querySelector("[data-reels-viewport]");
         if (!container) return;
         
         var videos = window.INITIAL_VIDEOS || [];
-        var saved = localStorage.getItem("enzo-videos");
-        if (saved) {
-          try {
-            videos = JSON.parse(saved);
-          } catch (e) {}
+
+        if (supabase) {
+          const { data, error } = await supabase.from('videos').select('*').order('id', { ascending: true });
+          if (!error && data && data.length > 0) {
+            videos = data.map(v => ({ title: v.title, location: v.location, videoUrl: v.video_url, posterUrl: v.poster_url }));
+          }
+        } else {
+          var saved = localStorage.getItem("enzo-videos");
+          if (saved) { try { videos = JSON.parse(saved); } catch (e) {} }
         }
 
         if (!videos.length) return;
 
         container.innerHTML = videos.map(function (v) {
-          return (
-            '<article class="reel-card" data-reel-slide>' +
-            '<div class="reel-card__head">' +
-            "<strong>" + v.title + "</strong>" +
-            "<span>" + v.location + "</span>" +
-            "</div>" +
-            '<div class="reel-card__frame">' +
-            '<div class="reel-card__media">' +
+          return '<article class="reel-card" data-reel-slide>' +
+            '<div class="reel-card__head"><strong>' + v.title + '</strong><span>' + v.location + '</span></div>' +
+            '<div class="reel-card__frame"><div class="reel-card__media">' +
             '<video poster="' + v.posterUrl + '" src="' + v.videoUrl + '" controls playsinline preload="metadata" title="' + v.title + ' — Enzo Fortes"></video>' +
-            "</div>" +
-            "</div>" +
-            "</article>"
-          );
+            '</div></div></article>';
         }).join("");
+
+        initCarousel();
+        initVideoLogic();
       }
+
+      // --- 2. Lógica do Carrossel e Spotlight ---
+      function initCarousel() {
+        var showcase = document.querySelector(".video-showcase");
+        if (showcase && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          showcase.addEventListener("mousemove", function (e) {
+            var r = showcase.getBoundingClientRect();
+            showcase.style.setProperty("--spot-x", e.clientX - r.left + "px");
+            showcase.style.setProperty("--spot-y", e.clientY - r.top + "px");
+          });
+          showcase.addEventListener("mouseleave", function () {
+            showcase.style.setProperty("--spot-x", "50%");
+            showcase.style.setProperty("--spot-y", "22%");
+          });
+        }
+
+        var root = document.querySelector("[data-reels-carousel]");
+        if (!root) return;
+        var viewport = root.querySelector("[data-reels-viewport]");
+        var slides = root.querySelectorAll("[data-reel-slide]");
+        var prevBtn = root.querySelector(".reels-carousel__nav--prev");
+        var nextBtn = root.querySelector(".reels-carousel__nav--next");
+        var dotsWrap = root.querySelector("[data-reels-dots]");
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var n = slides.length;
+        var autoTimer = null;
+        var sectionIsVisible = false;
+
+        function currentIndex() {
+          var vp = viewport.getBoundingClientRect();
+          var mid = vp.left + vp.width / 2;
+          var best = 0, bestDist = Infinity;
+          for (var i = 0; i < slides.length; i++) {
+            var c = slides[i].getBoundingClientRect();
+            var d = Math.abs((c.left + c.right) / 2 - mid);
+            if (d < bestDist) { bestDist = d; best = i; }
+          }
+          return best;
+        }
+
+        function goTo(index, instant) {
+          index = Math.max(0, Math.min(n - 1, index));
+          var slide = slides[index];
+          var targetLeft = (slide.offsetLeft + slide.offsetWidth / 2) - viewport.clientWidth / 2;
+          var maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+          targetLeft = Math.max(0, Math.min(targetLeft, maxScroll));
+          viewport.scrollTo({ left: targetLeft, behavior: reduced || instant ? "auto" : "smooth" });
+        }
+
+        function go(delta, instant) {
+          var ix = currentIndex();
+          if (delta > 0 && ix >= n - 1) goTo(0, instant);
+          else if (delta < 0 && ix <= 0) goTo(n - 1, instant);
+          else goTo(ix + delta, instant);
+        }
+
+        function updateDots() {
+          if (!dotsWrap) return;
+          var ix = currentIndex();
+          dotsWrap.querySelectorAll("button").forEach((b, k) => b.setAttribute("aria-current", k === ix ? "true" : "false"));
+        }
+
+        if (dotsWrap && n > 0) {
+          dotsWrap.innerHTML = "";
+          for (var i = 0; i < n; i++) {
+            var dot = document.createElement("button");
+            dot.type = "button";
+            dot.setAttribute("aria-label", "Ir para reel " + (i + 1));
+            (function (idx) { dot.addEventListener("click", function () { goTo(idx); stopAuto(); }); })(i);
+            dotsWrap.appendChild(dot);
+          }
+        }
+
+        viewport.addEventListener("scroll", updateDots);
+        if (prevBtn) prevBtn.addEventListener("click", () => { go(-1); stopAuto(); });
+        if (nextBtn) nextBtn.addEventListener("click", () => { go(1); stopAuto(); });
+
+        function startAuto() { if (n > 1) { stopAuto(); autoTimer = setInterval(() => go(1, true), 5000); } }
+        function stopAuto() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
+
+        var obs = new IntersectionObserver(entries => {
+          entries.forEach(e => { sectionIsVisible = e.isIntersecting; if (sectionIsVisible) startAuto(); else stopAuto(); });
+        }, { threshold: 0.3 });
+        obs.observe(document.getElementById("videos"));
+
+        root.addEventListener("mouseenter", stopAuto);
+        root.addEventListener("mouseleave", () => { if (sectionIsVisible) startAuto(); });
+      }
+
+      // --- 3. Lógica de Vídeos (Fullscreen/Pause Others) ---
+      function initVideoLogic() {
+        var vids = document.querySelectorAll("video");
+        vids.forEach(v => {
+          v.addEventListener("play", () => vids.forEach(other => { if (other !== v) other.pause(); }));
+          v.addEventListener("click", function() {
+            var frame = v.closest(".reel-card__frame");
+            var req = (frame.requestFullscreen || frame.webkitRequestFullscreen || v.requestFullscreen || v.webkitRequestFullscreen);
+            if (req) req.call(frame.requestFullscreen ? frame : v);
+          });
+        });
+      }
+
+      // --- 4. Contadores ---
+      (function initCounters() {
+        var ids = ["estatisticas", "duelo-intel"];
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        ids.forEach(id => {
+          var section = document.getElementById(id);
+          if (!section) return;
+          var nodes = section.querySelectorAll(".js-stat");
+          var io = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+              io.disconnect();
+              nodes.forEach(el => {
+                var target = parseInt(el.getAttribute("data-target"));
+                if (reduced) { el.textContent = target; return; }
+                var start = performance.now();
+                function frame(now) {
+                  var t = Math.min(1, (now - start) / 1500);
+                  el.textContent = Math.round((1 - Math.pow(1 - t, 3)) * target);
+                  if (t < 1) requestAnimationFrame(frame); else el.textContent = target;
+                }
+                requestAnimationFrame(frame);
+              });
+            }
+          }, { threshold: 0.2 });
+          io.observe(section);
+        });
+      })();
+
+      // --- 5. Áudio ---
+      (function initAudio() {
+        var audio = document.getElementById("site-audio");
+        var button = document.getElementById("audio-fab");
+        if (!audio || !button) return;
+        var icon = button.querySelector("i");
+        audio.volume = 0.45;
+
+        function setBtn(isPlaying) {
+          button.setAttribute("aria-pressed", isPlaying);
+          if (icon) icon.className = isPlaying ? "bi bi-pause-fill" : "bi bi-play-fill";
+        }
+
+        button.addEventListener("click", () => {
+          if (audio.paused) audio.play().then(() => setBtn(true));
+          else { audio.pause(); setBtn(false); }
+        });
+
+        audio.addEventListener("play", () => setBtn(true));
+        audio.addEventListener("pause", () => setBtn(false));
+        window.addEventListener("load", () => { audio.play().catch(() => setBtn(false)); });
+        window.addEventListener("pointerdown", () => { if (audio.paused) audio.play(); }, { once: true });
+      })();
+
+      // --- 6. Scroll Reset ---
+      document.querySelectorAll("[data-scroll]").forEach(el => {
+        el.addEventListener("click", e => {
+          e.preventDefault();
+          var target = document.getElementById(el.getAttribute("data-scroll"));
+          if (target) target.scrollIntoView({ behavior: "smooth" });
+        });
+      });
+
       renderReels();
-
-      var root = document.querySelector(".video-showcase");
-      if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      root.addEventListener("mousemove", function (e) {
-        var r = root.getBoundingClientRect();
-        root.style.setProperty("--spot-x", e.clientX - r.left + "px");
-        root.style.setProperty("--spot-y", e.clientY - r.top + "px");
-      });
-      root.addEventListener("mouseleave", function () {
-        root.style.setProperty("--spot-x", "50%");
-        root.style.setProperty("--spot-y", "22%");
-      });
-    })();
-    (function () {
-      var root = document.querySelector("[data-reels-carousel]");
-      if (!root) return;
-      var viewport = root.querySelector("[data-reels-viewport]");
-      var slides = root.querySelectorAll("[data-reel-slide]");
-      var prevBtn = root.querySelector(".reels-carousel__nav--prev");
-      var nextBtn = root.querySelector(".reels-carousel__nav--next");
-      var dotsWrap = root.querySelector("[data-reels-dots]");
-      var section = document.getElementById("videos");
-      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var n = slides.length;
-      var autoTimer = null;
-      var sectionIsVisible = false;
-
-      function anyVideoPlaying() {
-        var vids = root.querySelectorAll("video");
-        for (var i = 0; i < vids.length; i++) {
-          if (!vids[i].paused) return true;
-        }
-        return false;
-      }
-
-      function syncCarouselAutoWithVideos() {
-        if (anyVideoPlaying()) {
-          stopAuto();
-          return;
-        }
-        if (sectionIsVisible && n > 1) startAuto();
-      }
-
-      function currentIndex() {
-        var vp = viewport.getBoundingClientRect();
-        var mid = vp.left + vp.width / 2;
-        var best = 0;
-        var bestDist = Infinity;
-        for (var i = 0; i < slides.length; i++) {
-          var c = slides[i].getBoundingClientRect();
-          var cx = (c.left + c.right) / 2;
-          var d = Math.abs(cx - mid);
-          if (d < bestDist) {
-            bestDist = d;
-            best = i;
-          }
-        }
-        return best;
-      }
-
-      function goTo(index, instant) {
-        index = Math.max(0, Math.min(n - 1, index));
-        var slide = slides[index];
-        var vp = viewport;
-        var slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
-        var vpCenter = vp.clientWidth / 2;
-        var targetLeft = slideCenter - vpCenter;
-        var maxScroll = Math.max(0, vp.scrollWidth - vp.clientWidth);
-        targetLeft = Math.max(0, Math.min(targetLeft, maxScroll));
-        vp.scrollTo({
-          left: targetLeft,
-          behavior: reduced || instant ? "auto" : "smooth",
-        });
-      }
-
-      function go(delta, instant) {
-        var ix = currentIndex();
-        if (delta > 0 && ix >= n - 1) goTo(0, instant);
-        else if (delta < 0 && ix <= 0) goTo(n - 1, instant);
-        else goTo(ix + delta, instant);
-      }
-
-      function updateDots() {
-        if (!dotsWrap) return;
-        var ix = currentIndex();
-        var buttons = dotsWrap.querySelectorAll("button");
-        for (var k = 0; k < buttons.length; k++) {
-          buttons[k].setAttribute("aria-current", k === ix ? "true" : "false");
-        }
-      }
-
-      var scrollT;
-      viewport.addEventListener("scroll", function () {
-        clearTimeout(scrollT);
-        scrollT = setTimeout(updateDots, 60);
-        updateDots();
-      });
-
-      function startAuto() {
-        if (n <= 1) return;
-        stopAuto();
-        autoTimer = window.setInterval(function () {
-          go(1, true);
-        }, 5000);
-      }
-      function stopAuto() {
-        if (autoTimer) {
-          window.clearInterval(autoTimer);
-          autoTimer = null;
-        }
-      }
-      function restartAuto() {
-        stopAuto();
-        if (!anyVideoPlaying() && sectionIsVisible) startAuto();
-      }
-
-      if (section) {
-        var io = new IntersectionObserver(
-          function (entries) {
-            entries.forEach(function (e) {
-              sectionIsVisible = e.isIntersecting;
-              if (e.isIntersecting) {
-                if (!anyVideoPlaying()) startAuto();
-              } else {
-                stopAuto();
-              }
-            });
-          },
-          { threshold: 0, rootMargin: "120px 0px 120px 0px" }
-        );
-        io.observe(section);
-      } else {
-        sectionIsVisible = true;
-        if (!anyVideoPlaying()) startAuto();
-      }
-
-      root.querySelectorAll("video").forEach(function (vid) {
-        vid.addEventListener("play", syncCarouselAutoWithVideos);
-        vid.addEventListener("pause", syncCarouselAutoWithVideos);
-        vid.addEventListener("ended", syncCarouselAutoWithVideos);
-      });
-
-      if (prevBtn)
-        prevBtn.addEventListener("click", function () {
-          go(-1, false);
-          restartAuto();
-        });
-      if (nextBtn)
-        nextBtn.addEventListener("click", function () {
-          go(1, false);
-          restartAuto();
-        });
-
-      if (dotsWrap && n > 0) {
-        dotsWrap.innerHTML = "";
-        for (var d = 0; d < n; d++) {
-          (function (idx) {
-            var b = document.createElement("button");
-            b.type = "button";
-            b.setAttribute("aria-label", "Ir para o reel " + (idx + 1));
-            b.addEventListener("click", function () {
-              goTo(idx, false);
-              restartAuto();
-            });
-            dotsWrap.appendChild(b);
-          })(d);
-        }
-      }
-
-      viewport.addEventListener("keydown", function (e) {
-        if (e.key === "ArrowLeft") {
-          e.preventDefault();
-          go(-1, false);
-          restartAuto();
-        }
-        if (e.key === "ArrowRight") {
-          e.preventDefault();
-          go(1, false);
-          restartAuto();
-        }
-      });
-
-      updateDots();
-    })();
-    (function () {
-      var root = document.querySelector("[data-reels-carousel]");
-      if (!root) return;
-      var videos = root.querySelectorAll("video");
-      if (!videos.length) return;
-      videos.forEach(function (v) {
-        v.addEventListener("play", function () {
-          videos.forEach(function (other) {
-            if (other !== v) other.pause();
-          });
-        });
-        var frame = v.closest(".reel-card__frame");
-        v.addEventListener("click", function () {
-          if (!frame) return;
-          if (document.fullscreenElement === frame || document.fullscreenElement === v) return;
-          if (typeof v.webkitEnterFullscreen === "function") {
-            try {
-              v.webkitEnterFullscreen();
-            } catch (err) {}
-            return;
-          }
-          var req =
-            frame.requestFullscreen ||
-            frame.webkitRequestFullscreen ||
-            v.requestFullscreen ||
-            v.webkitRequestFullscreen;
-          if (req) {
-            try {
-              req.call(frame.requestFullscreen ? frame : v);
-            } catch (err) {}
-          }
-        });
-      });
-    })();
-    (function () {
-      var ids = ["estatisticas", "duelo-intel"];
-      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      function runCounterForSection(section) {
-        var nodes = section.querySelectorAll(".js-stat");
-        if (!nodes.length) return;
-        var done = false;
-        function animate() {
-          if (done) return;
-          done = true;
-          var dur = 1500;
-          nodes.forEach(function (el) {
-            var target = parseInt(el.getAttribute("data-target"), 10);
-            if (isNaN(target)) return;
-            if (reduced) {
-              el.textContent = String(target);
-              return;
-            }
-            var start = performance.now();
-            function frame(now) {
-              var t = Math.min(1, (now - start) / dur);
-              var eased = 1 - Math.pow(1 - t, 3);
-              el.textContent = String(Math.round(eased * target));
-              if (t < 1) requestAnimationFrame(frame);
-              else el.textContent = String(target);
-            }
-            requestAnimationFrame(frame);
-          });
-        }
-        if (reduced) {
-          animate();
-          return;
-        }
-        var io = new IntersectionObserver(
-          function (entries) {
-            entries.forEach(function (e) {
-              if (e.isIntersecting) {
-                io.disconnect();
-                animate();
-              }
-            });
-          },
-          { threshold: 0.2 }
-        );
-        io.observe(section);
-      }
-
-      ids.forEach(function (id) {
-        var section = document.getElementById(id);
-        if (section) runCounterForSection(section);
-      });
-    })();
-    (function () {
-      var audio = document.getElementById("site-audio");
-      var button = document.getElementById("audio-fab");
-      if (!audio || !button) return;
-      var icon = button.querySelector("i");
-      audio.volume = 0.45;
-
-      function setButtonState(isPlaying) {
-        button.setAttribute("aria-pressed", isPlaying ? "true" : "false");
-        button.setAttribute("aria-label", isPlaying ? "Pausar música" : "Tocar música");
-        if (icon) {
-          icon.className = isPlaying ? "bi bi-pause-fill" : "bi bi-play-fill";
-          icon.setAttribute("aria-hidden", "true");
-        }
-      }
-
-      function tryAutoPlay() {
-        audio.muted = true;
-        var playPromise = audio.play();
-        if (playPromise && typeof playPromise.then === "function") {
-          playPromise.then(function () {
-            setButtonState(true);
-          }).catch(function () {
-            setButtonState(false);
-          });
-        } else {
-          setButtonState(!audio.paused);
-        }
-      }
-
-      var unlocked = false;
-      function unlockSoundOnFirstInteraction() {
-        if (unlocked) return;
-        unlocked = true;
-        audio.muted = false;
-        var playPromise = audio.play();
-        if (playPromise && typeof playPromise.catch === "function") {
-          playPromise.catch(function () {
-            unlocked = false;
-            audio.muted = true;
-          });
-        }
-      }
-
-      button.addEventListener("click", function () {
-        unlockSoundOnFirstInteraction();
-        if (audio.paused) {
-          var playPromise = audio.play();
-          if (playPromise && typeof playPromise.catch === "function") {
-            playPromise.catch(function () {
-              setButtonState(false);
-            });
-          }
-          setButtonState(true);
-          return;
-        }
-        audio.pause();
-        setButtonState(false);
-      });
-
-      audio.addEventListener("play", function () { setButtonState(true); });
-      audio.addEventListener("pause", function () { setButtonState(false); });
-      window.addEventListener("load", function () {
-        if (audio.paused) tryAutoPlay();
-      });
-
-      // Novo handler para scroll suave sem mudar a URL
-      document.querySelectorAll("[data-scroll]").forEach(function(el) {
-        el.addEventListener("click", function(e) {
-          e.preventDefault();
-          var targetId = this.getAttribute("data-scroll");
-          var targetEl = document.getElementById(targetId);
-          if (targetEl) {
-            targetEl.scrollIntoView({ behavior: "smooth" });
-          }
-        });
-      });
-
-      window.addEventListener("pointerdown", unlockSoundOnFirstInteraction, { once: true, capture: true });
-      window.addEventListener("keydown", unlockSoundOnFirstInteraction, { once: true, capture: true });
-      window.addEventListener("touchstart", unlockSoundOnFirstInteraction, { once: true, capture: true });
-      document.addEventListener("visibilitychange", function () {
-        if (document.visibilityState !== "visible") return;
-        if (audio.paused) tryAutoPlay();
-      });
-      setButtonState(true);
-      tryAutoPlay();
     })();
   </script>
 

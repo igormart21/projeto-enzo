@@ -354,8 +354,15 @@
 
   <div id="toast">Alteração salva com sucesso!</div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/videos.js"></script>
   <script>
+    // --- Configuração Supabase ---
+    // Substitua pelas suas credenciais do Supabase
+    const SUPABASE_URL = 'SUA_URL_DO_SUPABASE';
+    const SUPABASE_KEY = 'SUA_ANON_KEY_DO_SUPABASE';
+    const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
     // --- Autenticação Simples ---
     const loginForm = document.getElementById('login-form');
     const loginScreen = document.getElementById('login-screen');
@@ -366,7 +373,6 @@
       const user = document.getElementById('username').value;
       const pass = document.getElementById('password').value;
 
-      // Senha padrão: admin / enzo2026
       if (user === 'admin' && pass === 'enzo2026') {
         loginScreen.style.display = 'none';
         adminDashboard.style.display = 'block';
@@ -388,20 +394,36 @@
       location.reload();
     }
 
-    // --- Gerenciamento de Vídeos ---
+    // --- Gerenciamento de Vídeos com Supabase ---
     let videos = [];
-    // Carrega do localStorage se existir, senão usa o do arquivo videos.js
-    const savedVideos = localStorage.getItem('enzo-videos');
-    if (savedVideos) {
-      videos = JSON.parse(savedVideos);
-    } else {
-      videos = window.INITIAL_VIDEOS || [];
-    }
 
-    function loadVideos() {
+    async function loadVideos() {
       const grid = document.getElementById('admin-video-grid');
       const totalStat = document.getElementById('stat-total');
       
+      if (!supabase || SUPABASE_URL === 'SUA_URL_DO_SUPABASE') {
+        // Fallback para localStorage/INITIAL_VIDEOS enquanto não configura
+        const savedVideos = localStorage.getItem('enzo-videos');
+        videos = savedVideos ? JSON.parse(savedVideos) : (window.INITIAL_VIDEOS || []);
+      } else {
+        const { data, error } = await supabase
+          .from('videos')
+          .select('*')
+          .order('id', { ascending: true });
+        
+        if (error) {
+          console.error('Erro ao buscar vídeos:', error);
+        } else {
+          videos = data.map(v => ({
+            id: v.id,
+            title: v.title,
+            location: v.location,
+            videoUrl: v.video_url,
+            posterUrl: v.poster_url
+          }));
+        }
+      }
+
       totalStat.textContent = videos.length;
       grid.innerHTML = '';
 
@@ -433,7 +455,7 @@
       if (index !== null) {
         const v = videos[index];
         title.textContent = 'Editar Vídeo';
-        document.getElementById('video-id').value = index;
+        document.getElementById('video-id').value = v.id || index; // Usa ID do Supabase ou index local
         document.getElementById('video-title').value = v.title;
         document.getElementById('video-location').value = v.location;
         document.getElementById('video-url').value = v.videoUrl;
@@ -451,31 +473,48 @@
       document.getElementById('modal-overlay').style.display = 'none';
     }
 
-    document.getElementById('video-form').addEventListener('submit', (e) => {
+    document.getElementById('video-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const id = document.getElementById('video-id').value;
-      const newVideo = {
+      const videoData = {
         title: document.getElementById('video-title').value,
         location: document.getElementById('video-location').value,
-        videoUrl: document.getElementById('video-url').value,
-        posterUrl: document.getElementById('video-poster').value
+        video_url: document.getElementById('video-url').value,
+        poster_url: document.getElementById('video-poster').value
       };
 
-      if (id !== '') {
-        videos[parseInt(id)] = newVideo;
-      } else {
-        videos.push(newVideo);
+      if (!supabase || SUPABASE_URL === 'SUA_URL_DO_SUPABASE') {
+        // Lógica local fallback
+        if (id !== '' && isNaN(id)) { /* editando existente no fallback */ }
+        // ... (mantido apenas para teste rápido)
+        showToast('Configure o Supabase para salvar permanentemente!');
+        return;
       }
 
-      saveData();
-      closeModal();
-      showToast();
+      let result;
+      if (id !== '') {
+        result = await supabase.from('videos').update(videoData).eq('id', id);
+      } else {
+        result = await supabase.from('videos').insert([videoData]);
+      }
+
+      if (result.error) {
+        alert('Erro ao salvar: ' + result.error.message);
+      } else {
+        loadVideos();
+        closeModal();
+        showToast();
+      }
     });
 
-    function deleteVideo(index) {
+    async function deleteVideo(index) {
       if (confirm('Tem certeza que deseja excluir este vídeo?')) {
-        videos.splice(index, 1);
-        saveData();
+        const v = videos[index];
+        if (supabase && v.id) {
+          const { error } = await supabase.from('videos').delete().eq('id', v.id);
+          if (error) alert('Erro ao excluir: ' + error.message);
+        }
+        loadVideos();
         showToast();
       }
     }
@@ -484,24 +523,12 @@
       openModal(index);
     }
 
-    function saveData() {
-      localStorage.setItem('enzo-videos', JSON.stringify(videos));
-      loadVideos();
-    }
-
-    function showToast() {
+    function showToast(msg = 'Alteração salva com sucesso!') {
       const toast = document.getElementById('toast');
+      toast.textContent = msg;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
-
-    // --- Placeholder para Firebase ---
-    /*
-    Para sincronizar com o site real no Vercel, o usuário deve:
-    1. Criar um projeto no Firebase.
-    2. Habilitar o Realtime Database.
-    3. Substituir o localStorage acima por chamadas ao Firebase.
-    */
   </script>
 </body>
 </html>
