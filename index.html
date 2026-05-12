@@ -200,23 +200,16 @@
     .hero__brand {
       position: absolute;
       top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 40px;
       z-index: 5;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       line-height: 0;
       text-decoration: none;
       color: inherit;
       width: fit-content;
       max-width: min(320px, 90vw);
-    }
-    @media (min-width: 901px) {
-      .hero__brand {
-        left: 40px;
-        transform: none;
-      }
     }
     .hero__logo {
       height: clamp(52px, 10vw, 80px);
@@ -2236,7 +2229,9 @@
       }
       .hero__brand {
         top: 14px;
-        max-width: min(300px, 88vw);
+        left: 16px;
+        transform: none;
+        max-width: min(180px, 50vw);
       }
       .hero__inner {
         padding: 8px 4px 6px;
