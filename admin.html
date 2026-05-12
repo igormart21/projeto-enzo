@@ -107,13 +107,201 @@
       transform: translateY(-2px);
     }
 
-    /* --- Admin Dashboard --- */
+    /* --- Admin Layout --- */
     #admin-dashboard {
       display: none;
-      padding: 40px 20px;
-      max-width: 1200px;
-      margin: 0 auto;
+      height: 100vh;
       width: 100%;
+    }
+
+    .admin-container {
+      display: flex;
+      height: 100%;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--gray);
+      border-right: 1px solid rgba(212, 175, 55, 0.15);
+      display: flex;
+      flex-direction: column;
+      padding: 30px 0;
+      z-index: 10;
+    }
+
+    .sidebar-header {
+      padding: 0 25px 30px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 20px;
+    }
+
+    .sidebar-logo {
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 0 15px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 14px 18px;
+      color: #888;
+      text-decoration: none;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      transition: all 0.3s;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .nav-item i {
+      margin-right: 12px;
+      font-size: 18px;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--gold);
+    }
+
+    .sidebar-footer {
+      padding: 20px 15px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      background: #000;
+      padding: 40px;
+    }
+
+    .tab-content {
+      display: none;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Profile Section */
+    .profile-card {
+      background: var(--gray);
+      padding: 40px;
+      border-radius: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      max-width: 600px;
+    }
+
+    .profile-info {
+      margin-bottom: 30px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .profile-info label {
+      color: #666;
+      font-size: 12px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    /* Mobile Toggle */
+    .mobile-header {
+      display: none;
+      background: var(--gray);
+      padding: 15px 20px;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      color: var(--gold);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* --- Responsive Adjustments --- */
+    @media (max-width: 992px) {
+      .sidebar {
+        position: fixed;
+        left: -260px;
+        top: 0;
+        bottom: 0;
+        transition: left 0.3s ease;
+        box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .mobile-header {
+        display: flex;
+      }
+
+      .main-content {
+        padding: 20px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .video-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 15px;
+      }
+
+      .profile-card {
+        padding: 20px;
+      }
+
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.7);
+        z-index: 5;
+      }
+
+      .sidebar-overlay.active {
+        display: block;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .tab-content header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 20px;
+      }
+
+      .btn-primary {
+        width: 100%;
+      }
     }
 
     header {
@@ -282,43 +470,119 @@
       <p>Acesse para gerenciar o portfolio do Enzo</p>
       <form id="login-form">
         <div class="form-group">
-          <label>Usuário</label>
-          <input type="text" id="username" placeholder="admin" required>
+          <label>E-mail</label>
+          <input type="email" id="email" placeholder="seu@email.com" required>
         </div>
         <div class="form-group">
           <label>Senha</label>
           <input type="password" id="password" placeholder="••••••••" required>
         </div>
         <button type="submit" class="btn-primary">ENTRAR NO PAINEL</button>
+        <button type="button" onclick="resetPassword()" style="background:none; border:none; color:var(--gold); font-size:12px; margin-top:15px; cursor:pointer; width:100%;">Esqueci minha senha</button>
       </form>
     </div>
   </div>
 
   <!-- Dashboard -->
   <div id="admin-dashboard">
-    <header>
-      <div class="logo-text">ENZO FORTES <span style="color: white; font-weight: 300;">| ADMIN</span></div>
-      <button class="btn-sm btn-edit" onclick="logout()">Sair</button>
-    </header>
-
-    <div class="stats-grid">
-      <div class="stat-card">
-        <h3>Total de Vídeos</h3>
-        <div class="value" id="stat-total">0</div>
-      </div>
-      <div class="stat-card">
-        <h3>Última Atualização</h3>
-        <div class="value" style="font-size: 18px; margin-top: 10px;">Hoje</div>
-      </div>
+    <!-- Header Mobile -->
+    <div class="mobile-header">
+      <div class="sidebar-logo" style="padding-bottom: 0;">ENZO FORTES</div>
+      <button class="menu-btn" onclick="toggleSidebar()">
+        <i class="bi bi-list"></i>
+      </button>
     </div>
 
-    <div class="section-title">
-      <h2>Gerenciar Vídeos</h2>
-      <button class="btn-primary" style="width: auto; padding: 10px 20px;" onclick="openModal()">+ NOVO VÍDEO</button>
-    </div>
+    <!-- Overlay para fechar menu no mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-    <div class="video-grid" id="admin-video-grid">
-      <!-- Vídeos serão listados aqui -->
+    <div class="admin-container">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-logo">ENZO FORTES</div>
+          <div style="color: #666; font-size: 10px; margin-top: 4px; font-weight: 600;">SUPERADMIN</div>
+        </div>
+        
+        <nav class="sidebar-nav">
+          <div class="nav-item active" onclick="switchTab('videos-tab', this)">
+            <i class="bi bi-play-circle"></i>
+            Gerenciar Vídeos
+          </div>
+          <div class="nav-item" onclick="switchTab('profile-tab', this)">
+            <i class="bi bi-person-gear"></i>
+            Meu Perfil
+          </div>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="nav-item" onclick="logout()" style="margin-bottom: 0;">
+            <i class="bi bi-box-arrow-right"></i>
+            Sair do Painel
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        
+        <!-- Tab: Videos -->
+        <div id="videos-tab" class="tab-content active">
+          <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+            <div>
+              <h1 style="font-size: 28px; margin-bottom: 8px;">Vídeos do Portfólio</h1>
+              <p style="color: #888; font-size: 14px;">Gerencie os vídeos exibidos na página inicial.</p>
+            </div>
+            <button class="btn-primary" style="width: auto; padding: 12px 25px;" onclick="openModal()">
+              <i class="bi bi-plus-lg"></i> NOVO VÍDEO
+            </button>
+          </header>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h3>Total de Vídeos</h3>
+              <div class="value" id="stat-total">0</div>
+            </div>
+            <div class="stat-card">
+              <h3>Última Atualização</h3>
+              <div class="value" style="font-size: 18px; margin-top: 10px;">Hoje</div>
+            </div>
+          </div>
+
+          <div class="video-grid" id="admin-video-grid">
+            <!-- Vídeos carregados aqui -->
+          </div>
+        </div>
+
+        <!-- Tab: Profile -->
+        <div id="profile-tab" class="tab-content">
+          <header style="margin-bottom: 40px;">
+            <h1 style="font-size: 28px; margin-bottom: 8px;">Configurações de Perfil</h1>
+            <p style="color: #888; font-size: 14px;">Gerencie suas informações de acesso.</p>
+          </header>
+
+          <div class="profile-card">
+            <div class="profile-info">
+              <label>E-mail da Conta</label>
+              <div class="email-display" id="profile-email">---</div>
+            </div>
+
+            <h3 style="color: var(--gold); margin-bottom: 20px; font-size: 18px;">Redefinir Senha</h3>
+            <form id="profile-form">
+              <div class="form-group">
+                <label>Nova Senha</label>
+                <input type="password" id="new-password" placeholder="Digite a nova senha" required minlength="6">
+              </div>
+              <div class="form-group">
+                <label>Confirmar Nova Senha</label>
+                <input type="password" id="confirm-password" placeholder="Repita a nova senha" required minlength="6">
+              </div>
+              <button type="submit" class="btn-primary" id="btn-update-profile">SALVAR ALTERAÇÕES</button>
+            </form>
+          </div>
+        </div>
+
+      </main>
     </div>
   </div>
 
@@ -337,12 +601,30 @@
           <input type="text" id="video-location" value="Local" required>
         </div>
         <div class="form-group">
-          <label>Caminho do Vídeo (Ex: assets/videos/nome.mp4)</label>
-          <input type="text" id="video-url" required>
+          <label>Ano</label>
+          <select id="video-year" required style="width: 100%; background: #000; border: 1px solid #333; padding: 12px 16px; border-radius: 8px; color: white;">
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+          </select>
         </div>
         <div class="form-group">
-          <label>Caminho da Capa (Ex: assets/capa.jpg)</label>
-          <input type="text" id="video-poster" value="assets/WhatsApp Image 2026-04-24 at 16.34.08 (1).jpeg" required>
+          <label>Vídeo (MP4)</label>
+          <input type="file" id="video-file" accept="video/mp4">
+          <input type="text" id="video-url" placeholder="Ou cole a URL aqui..." style="margin-top: 8px; font-size: 11px; opacity: 0.7;">
+        </div>
+        <div class="form-group">
+          <label>Capa do Vídeo (JPG/PNG)</label>
+          <input type="file" id="poster-file" accept="image/*">
+          <input type="text" id="video-poster" placeholder="Ou cole a URL aqui..." style="margin-top: 8px; font-size: 11px; opacity: 0.7;">
+        </div>
+        <div id="upload-progress" style="display: none; margin-bottom: 20px;">
+          <div style="font-size: 12px; margin-bottom: 5px; color: var(--gold);">Fazendo upload... <span id="progress-percent">0%</span></div>
+          <div style="width: 100%; height: 4px; background: #333; border-radius: 2px; overflow: hidden;">
+            <div id="progress-bar" style="width: 0%; height: 100%; background: var(--gold); transition: width 0.3s;"></div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-sm btn-cancel" onclick="closeModal()">Cancelar</button>
@@ -363,45 +645,125 @@
     const SUPABASE_KEY = window.ENV_CONFIG ? window.ENV_CONFIG.SUPABASE_KEY : 'SUA_ANON_KEY_DO_SUPABASE';
     const supabaseClient = (SUPABASE_URL !== 'SUA_URL_DO_SUPABASE' && window.supabase) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
-    // --- Autenticação Simples ---
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log('Painel Admin carregado. Pronto para login.');
+    // --- Autenticação Real com Supabase ---
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('Painel Admin carregado. Verificando sessão...');
       
       const loginForm = document.getElementById('login-form');
       const loginScreen = document.getElementById('login-screen');
       const adminDashboard = document.getElementById('admin-dashboard');
 
+      // Verifica se já está logado no Supabase
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      
+      if (session) {
+        showAdminPanel();
+      }
+
       if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
           e.preventDefault();
-          const user = document.getElementById('username').value.trim();
-          const pass = document.getElementById('password').value.trim();
+          const email = document.getElementById('email').value.trim();
+          const password = document.getElementById('password').value.trim();
 
-          console.log('Tentativa de login com:', user);
+          const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email,
+            password,
+          });
 
-          if (user === 'admin' && pass === 'enzo2026') {
-            console.log('Login bem-sucedido!');
-            loginScreen.style.display = 'none';
-            adminDashboard.style.display = 'block';
-            localStorage.setItem('admin-logged', 'true');
-            loadVideos();
+          if (error) {
+            alert('Erro no login: ' + error.message);
           } else {
-            console.warn('Falha no login: Credenciais incorretas.');
-            alert('Usuário ou senha incorretos!');
+            showAdminPanel();
           }
         });
       }
+    });
 
-      if (localStorage.getItem('admin-logged') === 'true') {
-        console.log('Sessão ativa encontrada.');
-        loginScreen.style.display = 'none';
-        adminDashboard.style.display = 'block';
-        setTimeout(loadVideos, 100);
+    function showAdminPanel() {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('admin-dashboard').style.display = 'block';
+      
+      // Carrega e-mail do usuário no perfil
+      supabaseClient.auth.getUser().then(({ data: { user } }) => {
+        if (user) document.getElementById('profile-email').textContent = user.email;
+      });
+
+      loadVideos();
+    }
+
+    function switchTab(tabId, element) {
+      // Remove classes ativas
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      
+      // Ativa aba e item do menu
+      document.getElementById(tabId).classList.add('active');
+      element.classList.add('active');
+
+      // Fecha sidebar no mobile após clique
+      if (window.innerWidth <= 992) {
+        toggleSidebar();
+      }
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+      document.getElementById('sidebar-overlay').classList.toggle('active');
+    }
+
+    // --- Lógica de Perfil ---
+    document.getElementById('profile-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const newPass = document.getElementById('new-password').value;
+      const confirmPass = document.getElementById('confirm-password').value;
+      const btn = document.getElementById('btn-update-profile');
+
+      if (newPass !== confirmPass) {
+        alert('As senhas não coincidem!');
+        return;
+      }
+
+      try {
+        btn.disabled = true;
+        btn.textContent = 'Salvando...';
+
+        const { error } = await supabaseClient.auth.updateUser({
+          password: newPass
+        });
+
+        if (error) throw error;
+
+        showToast('Senha alterada com sucesso!');
+        e.target.reset();
+      } catch (err) {
+        alert('Erro ao atualizar senha: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'SALVAR ALTERAÇÕES';
       }
     });
 
-    function logout() {
-      localStorage.removeItem('admin-logged');
+    async function resetPassword() {
+      const email = document.getElementById('email').value.trim();
+      if (!email) {
+        alert('Por favor, digite seu e-mail no campo acima primeiro.');
+        return;
+      }
+      
+      const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + '/admin.html',
+      });
+
+      if (error) {
+        alert('Erro: ' + error.message);
+      } else {
+        alert('E-mail de redefinição enviado! Verifique sua caixa de entrada.');
+      }
+    }
+
+    async function logout() {
+      await supabaseClient.auth.signOut();
       location.reload();
     }
 
@@ -427,6 +789,7 @@
         } else {
           videos = data.map(v => ({
             id: v.id,
+            year: v.year || 2026,
             title: v.title,
             location: v.location,
             videoUrl: v.video_url,
@@ -445,7 +808,7 @@
           <img src="${v.posterUrl}" class="video-thumb">
           <div class="video-info">
             <h4>${v.title}</h4>
-            <p>${v.location}</p>
+            <p>${v.location} • ${v.year}</p>
             <div class="actions">
               <button class="btn-sm btn-edit" onclick="editVideo(${index})">Editar</button>
               <button class="btn-sm btn-delete" onclick="deleteVideo(${index})">Excluir</button>
@@ -469,15 +832,43 @@
         document.getElementById('video-id').value = v.id || index; // Usa ID do Supabase ou index local
         document.getElementById('video-title').value = v.title;
         document.getElementById('video-location').value = v.location;
+        document.getElementById('video-year').value = v.year || 2026;
         document.getElementById('video-url').value = v.videoUrl;
         document.getElementById('video-poster').value = v.posterUrl;
+        document.getElementById('video-file').value = '';
+        document.getElementById('poster-file').value = '';
       } else {
         title.textContent = 'Novo Vídeo';
         form.reset();
         document.getElementById('video-id').value = '';
         document.getElementById('video-location').value = 'Local';
-        document.getElementById('video-poster').value = 'assets/WhatsApp Image 2026-04-24 at 16.34.08 (1).jpeg';
+        document.getElementById('video-year').value = '2026';
+        document.getElementById('video-url').value = '';
+        document.getElementById('video-poster').value = '';
       }
+    }
+
+    async function uploadFile(file, folder) {
+      if (!file) return null;
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+      const filePath = `${folder}/${fileName}`;
+
+      const { data, error } = await supabaseClient.storage
+        .from('media')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (error) throw error;
+
+      const { data: { publicUrl } } = supabaseClient.storage
+        .from('media')
+        .getPublicUrl(filePath);
+
+      console.log("Arquivo enviado com sucesso. URL pública:", publicUrl);
+      return publicUrl;
     }
 
     function closeModal() {
@@ -487,34 +878,69 @@
     document.getElementById('video-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const id = document.getElementById('video-id').value;
-      const videoData = {
-        title: document.getElementById('video-title').value,
-        location: document.getElementById('video-location').value,
-        video_url: document.getElementById('video-url').value,
-        poster_url: document.getElementById('video-poster').value
-      };
+      const videoFile = document.getElementById('video-file').files[0];
+      const posterFile = document.getElementById('poster-file').files[0];
+      const progressDiv = document.getElementById('upload-progress');
+      const progressBar = document.getElementById('progress-bar');
+      const progressPercent = document.getElementById('progress-percent');
 
       if (!supabaseClient || SUPABASE_URL === 'SUA_URL_DO_SUPABASE') {
-        // Lógica local fallback
-        if (id !== '' && isNaN(id)) { /* editando existente no fallback */ }
-        // ... (mantido apenas para teste rápido)
-        showToast('Configure o Supabase para salvar permanentemente!');
+        showToast('Configure o Supabase primeiro!');
         return;
       }
 
-      let result;
-      if (id !== '') {
-        result = await supabaseClient.from('videos').update(videoData).eq('id', id);
-      } else {
-        result = await supabaseClient.from('videos').insert([videoData]);
-      }
+      try {
+        progressDiv.style.display = 'block';
+        progressBar.style.width = '0%';
+        progressPercent.textContent = '0%';
 
-      if (result.error) {
-        alert('Erro ao salvar: ' + result.error.message);
-      } else {
+        let videoUrl = document.getElementById('video-url').value;
+        let posterUrl = document.getElementById('video-poster').value;
+
+        if (videoFile) {
+          progressPercent.textContent = 'Subindo vídeo...';
+          progressBar.style.width = '30%';
+          videoUrl = await uploadFile(videoFile, 'videos');
+        }
+
+        if (posterFile) {
+          progressPercent.textContent = 'Subindo capa...';
+          progressBar.style.width = '70%';
+          posterUrl = await uploadFile(posterFile, 'posters');
+        }
+
+        progressBar.style.width = '100%';
+        progressPercent.textContent = 'Finalizando...';
+
+        const videoData = {
+          title: document.getElementById('video-title').value,
+          location: document.getElementById('video-location').value,
+          year: parseInt(document.getElementById('video-year').value),
+          video_url: videoUrl,
+          poster_url: posterUrl
+        };
+
+        let result;
+        if (id !== '' && isNaN(id) === false) {
+          // Editando via ID numérico do Supabase
+          result = await supabaseClient.from('videos').update(videoData).eq('id', id);
+        } else if (id !== '') {
+          // Se for fallback ou outro caso
+          result = await supabaseClient.from('videos').update(videoData).eq('id', id);
+        } else {
+          result = await supabaseClient.from('videos').insert([videoData]);
+        }
+
+        if (result.error) throw result.error;
+
         loadVideos();
         closeModal();
-        showToast();
+        showToast('Vídeo salvo com sucesso!');
+      } catch (err) {
+        console.error(err);
+        alert('Erro: ' + err.message);
+      } finally {
+        progressDiv.style.display = 'none';
       }
     });
 

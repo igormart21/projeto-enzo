@@ -2,3 +2,8 @@
 .claude/
 *.log
 assets/js/config.js
+node_modules/
+dist/
+*.zip
+.vscode/
+.idea/

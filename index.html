@@ -1782,6 +1782,188 @@
     .reels-cta__link:hover {
       color: var(--gold-soft);
     }
+
+    /* —— Seletor de Anos —— */
+    .year-selector {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .year-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      color: #888;
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      letter-spacing: 0.5px;
+    }
+
+    .year-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--gold);
+      color: #fff;
+    }
+
+    .year-btn.active {
+      background: var(--gold);
+      color: #000;
+      border-color: var(--gold);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    @media (max-width: 600px) {
+      .year-selector {
+        gap: 8px;
+      }
+      .year-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+      }
+    }
+
+    /* —— Seção Social & Contato —— */
+    .social-section {
+      padding: 100px 20px;
+      position: relative;
+      background: #050505;
+      overflow: hidden;
+    }
+
+    .social-section::before {
+      content: "";
+      position: absolute;
+      top: -10%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+      filter: blur(60px);
+      z-index: 1;
+    }
+
+    .social-section__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .social-section__eyebrow {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .social-section__title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 48px;
+      color: #fff;
+    }
+
+    .social-section__title span {
+      color: var(--gold);
+    }
+
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .social-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 40px 32px;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(212, 175, 55, 0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .social-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(212, 175, 55, 0.1);
+    }
+
+    .social-card:hover::after {
+      opacity: 1;
+    }
+
+    .social-card__icon {
+      width: 70px;
+      height: 70px;
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 24px;
+      transition: transform 0.4s;
+    }
+
+    .social-card:hover .social-card__icon {
+      transform: scale(1.1) rotate(5deg);
+      background: var(--gold);
+      color: #000;
+    }
+
+    .social-card h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .social-card p {
+      color: #888;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .social-card__handle {
+      margin-top: 20px;
+      font-weight: 600;
+      color: var(--gold);
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+      .social-section {
+        padding: 60px 20px;
+      }
+      .social-grid {
+        grid-template-columns: 1fr;
+      }
+    }
     @media (prefers-reduced-motion: reduce) {
       .reels-carousel__viewport { scroll-behavior: auto; }
       .reel-card:hover { transform: none; }
@@ -2122,7 +2304,7 @@
     <a class="hero__brand" href="#topo" aria-label="EF-Sport — início">
       <img
         class="hero__logo"
-        src="assets/ChatGPT%20Image%20Apr%2024%2C%202026%2C%2011_43_17%20AM.png"
+        src="assets/logo.png"
         alt="EF-Sport"
         decoding="async"
       />
@@ -2141,6 +2323,7 @@
       <a href="javascript:void(0)" data-scroll="trajetoria">Evolução</a>
       <a href="javascript:void(0)" data-scroll="estatisticas">Performance</a>
       <a href="javascript:void(0)" data-scroll="parcerias">Parceiros</a>
+      <a href="javascript:void(0)" data-scroll="redes">Social</a>
     </footer>
   </section>
 
@@ -2265,7 +2448,7 @@
     <div class="stats-showcase__media">
       <div class="stats-showcase__photo" aria-hidden="true">
         <img
-          src="assets/ChatGPT%20Image%20Apr%2024%2C%202026%2C%2001_08_18%20PM.png"
+          src="assets/stats-bg.png"
           alt=""
           loading="lazy"
           decoding="async"
@@ -2344,9 +2527,16 @@
       <p class="video-showcase__eyebrow"><i class="bi bi-instagram"></i> Reels &amp; highlights</p>
       <h2 class="video-showcase__title" id="videos-heading">Enzo em <span>movimento</span></h2>
       <p class="video-showcase__lead">
-        Lances, ritmo e presença do Enzo em campo — cada card é um recorte do que ele mostra no jogo real, do aquecimento ao apito final.
-        O carrossel avança sozinho; você também pode <em>deslizar</em> ou usar as setas para ver o próximo trecho, no formato vertical que lembra Reels e Shorts.
+        Acompanhe de perto a energia, a técnica e a presença de área do Enzo em cada lance. Uma seleção exclusiva de highlights que traduzem seu desempenho e evolução constante em campo, capturando a essência do jogo do aquecimento ao apito final.
       </p>
+
+      <div class="year-selector" id="year-selector">
+        <button type="button" class="year-btn active" data-year="2026">2026</button>
+        <button type="button" class="year-btn" data-year="2027">2027</button>
+        <button type="button" class="year-btn" data-year="2028">2028</button>
+        <button type="button" class="year-btn" data-year="2029">2029</button>
+        <button type="button" class="year-btn" data-year="2030">2030</button>
+      </div>
 
       <div class="reels-carousel" data-reels-carousel>
         <button type="button" class="reels-carousel__nav reels-carousel__nav--prev" aria-label="Reel anterior">
@@ -2470,7 +2660,7 @@
     </div>
   </section>
 
-  <audio id="site-audio" src="assets/audio.mp3" preload="auto" loop autoplay muted playsinline></audio>
+  <audio id="site-audio" src="assets/WhatsApp Image 2026-05-06 at 07.34.55.mp3" preload="auto" loop autoplay playsinline></audio>
   <button class="audio-fab" id="audio-fab" type="button" aria-label="Pausar música" aria-pressed="true">
     <i class="bi bi-pause-fill" aria-hidden="true"></i>
   </button>
@@ -2486,23 +2676,35 @@
       const supabaseClient = (SUPABASE_URL !== 'SUA_URL_DO_SUPABASE' && window.supabase) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
       // --- 1. Renderização Dinâmica de Vídeos ---
-      async function renderReels() {
+      let currentYear = 2026;
+
+      async function renderReels(year = 2026) {
         var container = document.querySelector("[data-reels-viewport]");
         if (!container) return;
         
-        var videos = window.INITIAL_VIDEOS || [];
+        currentYear = year;
+        var allVideos = window.INITIAL_VIDEOS || [];
 
         if (supabaseClient) {
           const { data, error } = await supabaseClient.from('videos').select('*').order('id', { ascending: true });
           if (!error && data && data.length > 0) {
-            videos = data.map(v => ({ title: v.title, location: v.location, videoUrl: v.video_url, posterUrl: v.poster_url }));
+            allVideos = data.map(v => ({ 
+              title: v.title, 
+              location: v.location, 
+              videoUrl: v.video_url, 
+              posterUrl: v.poster_url,
+              year: v.year || 2026 
+            }));
           }
-        } else {
-          var saved = localStorage.getItem("enzo-videos");
-          if (saved) { try { videos = JSON.parse(saved); } catch (e) {} }
         }
 
-        if (!videos.length) return;
+        // Filtra vídeos pelo ano selecionado
+        var videos = allVideos.filter(v => v.year === year);
+
+        if (!videos.length) {
+          container.innerHTML = '<div style="grid-column: 1/-1; padding: 60px 20px; text-align: center; color: #666; font-size: 0.9rem;">Nenhum vídeo disponível para ' + year + ' no momento.</div>';
+          return;
+        }
 
         container.innerHTML = videos.map(function (v) {
           return '<article class="reel-card" data-reel-slide>' +
@@ -2514,6 +2716,24 @@
 
         initCarousel();
         initVideoLogic();
+      }
+
+      // --- 1.1 Lógica do Seletor de Anos ---
+      function initYearSelector() {
+        const selector = document.getElementById('year-selector');
+        if (!selector) return;
+
+        const buttons = selector.querySelectorAll('.year-btn');
+        buttons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            const year = parseInt(btn.getAttribute('data-year'));
+            if (year === currentYear) return;
+
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderReels(year);
+          });
+        });
       }
 
       // --- 2. Lógica do Carrossel e Spotlight ---
@@ -2678,9 +2898,40 @@
         });
       });
 
-      renderReels();
+      initYearSelector();
+      renderReels(2026);
     })();
   </script>
+
+  <section class="social-section" id="redes" aria-labelledby="social-heading">
+    <div class="social-section__inner">
+      <p class="social-section__eyebrow">Conexão &amp; Networking</p>
+      <h2 class="social-section__title" id="social-heading">Acompanhe o <span>Enzo Fortes</span></h2>
+      
+      <div class="social-grid">
+        <a href="https://www.instagram.com/enzofortes7" target="_blank" rel="noreferrer" class="social-card">
+          <div class="social-card__icon"><i class="bi bi-instagram"></i></div>
+          <h3>Instagram</h3>
+          <p>Bastidores, treinos e o dia a dia de um atleta em evolução constante.</p>
+          <span class="social-card__handle">@enzofortes7</span>
+        </a>
+
+        <a href="https://www.tiktok.com/@enzofortes7" target="_blank" rel="noreferrer" class="social-card">
+          <div class="social-card__icon"><i class="bi bi-tiktok"></i></div>
+          <h3>TikTok</h3>
+          <p>Highlights, lances rápidos e os melhores momentos das partidas.</p>
+          <span class="social-card__handle">@enzofortes7</span>
+        </a>
+
+        <a href="https://wa.me/553186020686" target="_blank" rel="noreferrer" class="social-card">
+          <div class="social-card__icon"><i class="bi bi-whatsapp"></i></div>
+          <h3>WhatsApp</h3>
+          <p>Contato direto para propostas, parcerias e convites de scout.</p>
+          <span class="social-card__handle">+55 31 8602-0686</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <footer class="site-footer" aria-label="Rodapé">
     <div class="site-footer__glow" aria-hidden="true"></div>
@@ -2690,7 +2941,7 @@
           <a href="#topo">
             <img
               class="site-footer__logo"
-              src="assets/ChatGPT%20Image%20Apr%2024%2C%202026%2C%2011_43_17%20AM.png"
+              src="assets/logo.png"
               alt="EF-Sport"
               decoding="async"
             />

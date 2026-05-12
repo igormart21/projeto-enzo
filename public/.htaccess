@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# Redirecionar /admin para admin.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^admin$ admin.html [L]
+
+# Remover .html da URL (Opcional, deixa o site mais limpo)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]
