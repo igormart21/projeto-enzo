@@ -1301,6 +1301,29 @@
       margin-top: 2px;
       flex-shrink: 0;
     }
+
+    .official-sponsor__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 24px;
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s;
+    }
+
+    .official-sponsor__link:hover {
+      color: #fff;
+      transform: translateX(5px);
+    }
+
+    .official-sponsor__link i {
+      font-size: 1rem;
+    }
     @media (max-width: 900px) {
       .sponsor-showcase {
         display: flex;
@@ -2614,15 +2637,15 @@
 
   <section class="official-sponsor" id="patrocinador-oficial" aria-labelledby="patrocinador-oficial-heading">
     <div class="official-sponsor__inner">
-      <div class="official-sponsor__logo-wrap" aria-hidden="true">
+      <a href="https://br.puma.com/" target="_blank" rel="noopener noreferrer" class="official-sponsor__logo-wrap" title="Visitar site oficial da Puma">
         <img
           class="official-sponsor__logo"
           src="assets/puma.png"
-          alt=""
+          alt="Logo Puma"
           loading="lazy"
           decoding="async"
         />
-      </div>
+      </a>
       <div class="official-sponsor__content">
         <p class="official-sponsor__eyebrow">Patrocinador oficial</p>
         <h2 class="official-sponsor__title" id="patrocinador-oficial-heading">Puma ao lado da trajetória do <em>Enzo</em></h2>
@@ -2635,6 +2658,9 @@
           <li><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i><span><strong>Alinhamento de valores</strong> — mentalidade de alto rendimento, consistência e evolução em cada temporada.</span></li>
           <li><i class="bi bi-trophy-fill" aria-hidden="true"></i><span><strong>Visão de futuro</strong> — construção de posicionamento sólido para os próximos ciclos competitivos.</span></li>
         </ul>
+        <a href="https://br.puma.com/" target="_blank" rel="noopener noreferrer" class="official-sponsor__link">
+          Visitar site oficial da Puma <i class="bi bi-box-arrow-up-right"></i>
+        </a>
       </div>
     </div>
   </section>
